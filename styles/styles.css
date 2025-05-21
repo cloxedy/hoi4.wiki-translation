@@ -677,3 +677,15 @@ body.theme-dark-base .spoiler-content {
     max-width: 100%;
     width: 150px;
 }
+.error-alink {
+    color: white;
+    text-decoration: none;
+    position: absolute;
+    bottom: 10px; /* Отступ от низа страницы */
+    left: 50%;
+    transform: translateX(-50%); /* Центрирование по горизонтали */
+}
+.error-alink:hover {
+    color: #98c379;
+    transition: color 0.3s ease;
+}
