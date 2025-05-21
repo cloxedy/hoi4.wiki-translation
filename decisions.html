@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моддінг Рішень HOI4</title>
+    <title>Модинг Рішень HOI4</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@700&display=swap" rel="stylesheet">
     
     <!-- Посилання на ваш існуючий файл CSS -->
-    <link rel="stylesheet" href="./styles/ideas.css"> 
+    <link rel="stylesheet" href="./styles/styles.css"> 
 </head>
 <body class="theme-light theme-dark-base"> 
 <div class="page-wrapper">
@@ -32,12 +32,14 @@
             </select>
         </div>
         <div class="quick-nav-link">
-            <a href="index.html" class="nav-button">← Головна сторінка моддінгу</a> 
+            <a href="./index" class="nav-button">← Головна сторінка Модингу</a> 
+            <a href="#header-text" class="nav-button">Вгору &#x2191;</a>
+            <a href="#focused-navigation-menu" class="nav-button">Меню розділів &#x2193;</a>
         </div>
     </div>
 
     <header>
-        <h1>Моддінг Рішень</h1>
+        <h1 id="header-text">Модинг рішень (Decisions)</h1>
     </header>
 
     <div class="container">
@@ -47,8 +49,6 @@
         </div>
 
         <div id="main-content">
-            <p><em>Це вікі, що підтримується спільнотою. Якщо ви помітили помилку, будь ласка, допоможіть її виправити.</em></p>
-
             <p>Рішення та місії представляють дії, які гравець може або повинен вжити, кожна з яких зберігається у відповідній категорії. Самі рішення визначаються у файлах <code>/Hearts of Iron IV/common/decisions/*.txt</code>, тоді як категорії визначаються у <code>/Hearts of Iron IV/common/decisions/categories/*.txt</code>. Хоча зазвичай у назву файлу включають тег країни, це насправді не має значення: файли можуть мати будь-яку назву, і це ніяк не вплине на те, як вони будуть прочитані.</p>
 
             <div class="table-of-contents">
@@ -323,7 +323,7 @@ custom_cost_text = decision_cost_CP_15</code></pre>
             <p>Щоб змусити таймер скасуватися достроково без надання ефектів, <code>visible = { ... }</code> за замовчуванням не працює. Натомість використовується <code>cancel_trigger = { ... }</code> як блок тригерів. Після того, як він буде оцінений як істинний, таймер рішення закінчується без виконання <code>remove_effect = { ... }</code>. <code>cancel_if_not_visible = yes</code>, за замовчуванням хибно, служить простим способом додати тригери <code>visible</code> до блоку <code>cancel_trigger = { ... }</code>. Після скасування рішення виконується блок ефектів <code>cancel_effect = { ... }</code>. Це може бути корисним як спосіб скасувати ефекти, застосовані в <code>complete_effect</code>.</p>
 
             <h3 id="ai-decision">5.5. ШІ</h3>
-            <p><strong>Основна стаття: <a href="https://hoi4.paradoxwikis.com/AI_modding#AI_will_do" target="_blank" rel="noopener noreferrer">Моддінг ШІ § AI will do</a></strong></p>
+            <p><strong>Основна стаття: <a href="https://hoi4.paradoxwikis.com/AI_modding#AI_will_do" target="_blank" rel="noopener noreferrer">Модинг ШІ § AI will do</a></strong></p>
             <p>Шанс для ШІ вибрати рішення визначається блоком <code>ai_will_do = { ... }</code> всередині рішення, який є блоком MTTH (середній час до настання події). За замовчуванням рішення ніколи не буде обрано ШІ, і цей блок необхідний, щоб ШІ його обирав.</p>
             <p>Як блок MTTH, структура складається з <code>factor = 10</code> або <code>base = 10</code> для вибору початкового значення та <code>modifier = { ... }</code> як блоків тригерів, що призначають <code>add/factor/base</code> у вказаному порядку. Наприклад, наступне змусить рішення ніколи не обиратися ШІ, якщо тільки країна не перебуває у війні з ITA, у цьому випадку воно має вагу 10:</p>
             <pre><code>ai_will_do = {

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моддінг Ідей (Національних духів) HOI4</title>
+    <title>Модинг Ідей (Національних духів) HOI4</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@700&display=swap" rel="stylesheet">
     
     <!-- Посилання на ваш існуючий файл CSS -->
-    <link rel="stylesheet" href="./styles/ideas.css"> 
+    <link rel="stylesheet" href="./styles/styles.css"> 
 </head>
 <body class="theme-light theme-dark-base"> 
 <div class="page-wrapper">
@@ -32,15 +32,15 @@
             </select>
         </div>
         <div class="quick-nav-link">
-            <!-- Посилання на головну сторінку моддінгу -->
-            <a href="./index" class="nav-button">← Головна сторінка моддінгу</a> 
+            <!-- Посилання на головну сторінку Модингу -->
+            <a href="./index" class="nav-button">← Головна сторінка Модингу</a> 
             <a href="#header-text" class="nav-button">Вгору &#x2191;</a>
             <a href="#focused-navigation-menu" class="nav-button">Меню розділів &#x2193;</a>
         </div>
     </div>
 
     <header id="header-text">
-        <h1>Моддінг Ідей (Національних духів)</h1>
+        <h1>Модинг нац. духів (Ideas)</h1>
     </header>
 
     <div class="container">
@@ -50,8 +50,6 @@
         </div>
 
         <div id="main-content">
-            <p><em>Це вікі, що підтримується спільнотою. Якщо ви помітили помилку, будь ласка, допоможіть її виправити.</em></p>
-
             <p>Ідеї — це статичний спосіб застосування модифікаторів до країни, зокрема національні духи, закони, конструктори, духи офіцерського корпусу та приховані ідеї. Самі ідеї визначаються в <code>/Hearts of Iron IV/common/ideas/*.txt</code>, тоді як категорії ідей визначаються в <code>/Hearts of Iron IV/common/idea_tags/*.txt</code>.</p>
 
             <div class="table-of-contents">
@@ -368,7 +366,7 @@ on_remove = {
             <p><code>Invalid</code> вимагатиме специфікації в кожній ідеї індивідуально.</p>
 
             <h3 id="gfx-and-gui">3.1. GFX та GUI</h3>
-            <p><strong>Див. також: <a href="https://hoi4.paradoxwikis.com/Interface_modding" target="_blank" rel="noopener noreferrer">Моддінг інтерфейсу</a></strong></p>
+            <p><strong>Див. також: <a href="https://hoi4.paradoxwikis.com/Interface_modding" target="_blank" rel="noopener noreferrer">Модинг інтерфейсу</a></strong></p>
             <p>Кожна категорія ідей представляє рядок у вікні політики країни, тоді як кожен слот представляє слот під цим рядком. Контейнерне вікно <code>country_politics_idea_category_entry</code> у файлі <code>/Hearts of Iron IV/interface/countrypoliticsview.gui</code> визначає інформацію користувацького інтерфейсу про кожен рядок. Найважливішим тут є <code>gridbox</code>, оскільки він визначає наступне:</p>
             <ul>
                 <li>Розмір кожного слота ідеї в категорії, за замовчуванням 80 завширшки та 64 заввишки. Це використовується для відстаней між слотами.</li>
