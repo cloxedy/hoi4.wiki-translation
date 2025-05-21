@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моддінг Рішень HOI4</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Посилання на ваш існуючий файл CSS -->
+    <link rel="stylesheet" href="./styles/ideas.css"> 
+</head>
+<body class="theme-light theme-dark-base"> 
+<div class="page-wrapper">
+    <div class="top-bar">
+        <div class="controls">
+            <label for="language-switcher">Мова:</label>
+            <select id="language-switcher" onchange="switchLanguage(this.value)">
+                <option value="uk" selected>Українська</option>
+                <option value="ru">Русский (decisions_ru.html)</option> 
+            </select>
+
+            <label for="theme-switcher">Тема:</label>
+            <select id="theme-switcher">
+                <option value="theme-light">Світла</option>
+                <option value="theme-aistudio-dark">AI Studio Dark</option>
+                <option value="theme-nord-dark">Nord Dark</option>
+                <option value="theme-dracula">Dracula</option>
+                <option value="theme-one-dark-pro">One Dark Pro</option>
+            </select>
+        </div>
+        <div class="quick-nav-link">
+            <a href="index.html" class="nav-button">← Головна сторінка моддінгу</a> 
+        </div>
+    </div>
+
+    <header>
+        <h1>Моддінг Рішень</h1>
+    </header>
+
+    <div class="container">
+        <div class="disclaimer">
+            <p><strong>Увага!</strong> Це переклад оригінальної сторінки <a href="https://hoi4.paradoxwikis.com/Decision_modding" target="_blank" rel="noopener noreferrer">Decision modding - Hearts of Iron 4 Wiki</a>.</p>
+            <p>Я не є автором оригінального контенту. Переклад виконано за допомогою інструментів штучного інтелекту та може містити неточності. Оригінал знаходиться за вказаним посиланням.</p>
+        </div>
+
+        <div id="main-content">
+            <p><em>Це вікі, що підтримується спільнотою. Якщо ви помітили помилку, будь ласка, допоможіть її виправити.</em></p>
+
+            <p>Рішення та місії представляють дії, які гравець може або повинен вжити, кожна з яких зберігається у відповідній категорії. Самі рішення визначаються у файлах <code>/Hearts of Iron IV/common/decisions/*.txt</code>, тоді як категорії визначаються у <code>/Hearts of Iron IV/common/decisions/categories/*.txt</code>. Хоча зазвичай у назву файлу включають тег країни, це насправді не має значення: файли можуть мати будь-яку назву, і це ніяк не вплине на те, як вони будуть прочитані.</p>
+
+            <div class="table-of-contents">
+                <h3>Зміст</h3>
+                <ul>
+                    <li><a href="#basic-creation">1. Базове створення</a></li>
+                    <li><a href="#arguments-decisions-categories">2. Аргументи для рішень та категорій</a>
+                        <ul>
+                            <li><a href="#triggers">2.1. Тригери</a></li>
+                            <li><a href="#icon">2.2. Іконка</a></li>
+                            <li><a href="#priority">2.3. Пріоритет</a></li>
+                            <li><a href="#state-highlighting">2.4. Підсвічування штатів</a></li>
+                            <li><a href="#province-highlighting">2.5. Підсвічування провінцій</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#arguments-categories">3. Аргументи для категорій</a>
+                        <ul>
+                            <li><a href="#picture-cat">3.1. Зображення</a></li>
+                            <li><a href="#visibility-empty">3.2. Видимість при порожнечі</a></li>
+                            <li><a href="#map-area">3.3. Область на карті</a></li>
+                            <li><a href="#scripted-gui-cat">3.4. Скриптовий GUI</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#category-examples">4. Приклади категорій</a></li>
+                    <li><a href="#arguments-decisions">5. Аргументи для рішень</a>
+                        <ul>
+                            <li><a href="#effects-selection">5.1. Ефекти при виборі</a></li>
+                            <li><a href="#decision-reappearing">5.2. Повторна поява рішення</a></li>
+                            <li><a href="#decision-cost">5.3. Вартість рішення</a></li>
+                            <li><a href="#timer-selection">5.4. Таймер при виборі</a></li>
+                            <li><a href="#ai-decision">5.5. ШІ</a></li>
+                            <li><a href="#warning-war">5.6. Попередження про війну</a></li>
+                            <li><a href="#fixed-random-seed">5.7. Фіксоване випадкове зерно</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#decision-examples">6. Приклади рішень</a></li>
+                    <li><a href="#missions">7. Місії</a>
+                        <ul>
+                            <li><a href="#mission-example">7.1. Приклад місії</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#targeted-decisions">8. Цільові рішення</a>
+                        <ul>
+                            <li><a href="#checking-target">8.1. Перевірка цілі</a>
+                                <ul>
+                                    <li><a href="#triggers-overview">8.1.1. Огляд тригерів</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#warning-war-targeted">8.2. Попередження про війну</a></li>
+                            <li><a href="#additional-note-targeted">8.3. Додаткова примітка</a></li>
+                            <li><a href="#targeted-decision-example">8.4. Приклад цільового рішення</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#state-targeted-decisions">9. Цільові рішення для штатів</a>
+                        <ul>
+                            <li><a href="#example-state-targeted">9.1. Приклад</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <h2 id="basic-creation">1. Базове створення</h2>
+            <p>Кожне рішення повинно зберігатися в категорії. Категорії рішень визначаються в будь-якому файлі <code>/Hearts of Iron IV/common/decisions/categories/*.txt</code>. Дуже базове визначення категорії рішень виглядає так:</p>
+            <pre><code>my_decision_category = {
+}</code></pre>
+            <p>Це створить категорію <code>my_decision_category</code>, яку можна використовувати в рішеннях.</p>
+            <p>Після цього рішення для цієї категорії можна створювати в будь-якому файлі <code>/Hearts of Iron IV/common/decisions/*.txt</code>. Рішення призначаються категорії шляхом розміщення їх у блоці цієї категорії, охопленому фігурними дужками, як у наступному прикладі:</p>
+            <pre><code>my_decision_category = {
+    my_decision_1 = {
+    }
+    my_decision_2 = {
+    }
+}</code></pre>
+            <p>Це створить рішення <code>my_decision_1</code> та <code>my_decision_2</code> зі стандартною іконкою та без ефекту, і призначить їх категорії <code>my_decision_category</code>.</p>
+            <p>Назва рішення відповідно до поточної увімкненої мови може бути визначена в будь-якому файлі локалізації, беручи назву рішення як ключ, а назву рішення з доданим <code>_desc</code> в кінці — як назву для ключа локалізації опису. Наприклад, локалізація для цих рішень для англійської мови виглядатиме так у будь-якому файлі <code>/Hearts of Iron IV/localisation/english/*_l_english.yml</code>:</p>
+            <pre><code>l_english:
+ my_decision_category: "Моя категорія рішень"
+ my_decision_category_desc: "Опис моєї категорії рішень"
+ my_decision_1: "Моє рішення"
+ my_decision_1_desc: "Опис мого рішення"
+ my_decision_2: "Моє рішення без опису"</code></pre>
+
+            <hr>
+            <h2 id="arguments-decisions-categories">2. Аргументи для рішень та категорій</h2>
+            <p><em>Це вікі, що підтримується спільнотою. Якщо ви помітили помилку, будь ласка, допоможіть її виправити.</em></p>
+            <p>Наступні аргументи можуть використовуватися як у рішеннях, так і в категоріях рішень, зазвичай з подібним ефектом.</p>
+
+            <h3 id="triggers">2.1. Тригери</h3>
+            <p>Зазвичай бажано обмежити рішення так, щоб його не завжди можна було прийняти, наприклад, обмежити його певною країною. Для цього існує кілька блоків тригерів, що служать різним цілям. Рішення буде доступним або видимим лише якщо відповідні умови виконані як у категорії, так і в самому рішенні.</p>
+            <ul>
+                <li><code>allowed</code> — це блок тригерів, який перевіряється лише на початку гри або при завантаженні збереження, в основному використовується для обмеження рішення для країни (як <code>tag = BHR</code> або <code>original_tag = POL</code>) та/або DLC (як <code>has_dlc = "One Step Back"</code>). Якщо умова <code>allowed</code> для рішення або категорії не виконана, воно ніколи не з'явиться, якщо тільки вона не стане істинною при перезавантаженні збереження або перезавантаженні самих рішень. Якщо пропущено, вважається завжди дозволеним. Це перевіряється лише один раз!
+                <pre><code>allowed = {
+    original_tag = BHR
+}</code></pre>
+                </li>
+                <li><code>visible</code> — це блок тригерів, який безперервно перевіряє кожен кадр, чи виконано <code>allowed</code>, що необхідно для того, щоб рішення або вся категорія була видимою на екрані вибору рішень. У випадку цільових рішень тут можна перевіряти як <code>FROM</code>, так і <code>ROOT</code>, але рекомендується використовувати <code>target_trigger</code>, коли це можливо, для оптимізації. Краще розміщувати перевірки країни або DLC в <code>allowed</code>. Нічого не робить для місій!
+                <pre><code>visible = {
+    is_subject = no
+}</code></pre>
+                </li>
+                <li><code>available</code> — це блок тригерів, який безперервно перевіряє кожен кадр, чи виконано <code>visible</code>, що необхідно для можливості фактично прийняти рішення. Якщо хибно, рішення (або, у випадку категорій, рішення всередині) залишатиметься видимим (якщо не встановлено інше), але буде сірим та неможливим для виконання. Це застосовується поверх вартості політичної влади. Для місій застосовується по-різному.
+                <pre><code>available = {
+    has_war = yes
+}</code></pre>
+                </li>
+            </ul>
+
+            <h3 id="icon">2.2. Іконка</h3>
+            <p>Іконка — це невелике зображення, що відображається зліва від назви рішення або категорії. Іконки використовують спрайти, визначені в будь-якому файлі <code>/Hearts of Iron IV/interface/*.gfx</code>, за замовчуванням у <code>decisions.gfx</code>. У рішенні або категорії вона встановлюється за допомогою <code>icon = icon_name</code>. Зауважте, що гра автоматично вставляє або <code>GFX_decision_</code>, або <code>GFX_decision_category_</code>, залежно від того, чи це рішення, чи категорія. Таким чином, приклад з <code>icon_name</code> змусить її використовувати спрайт <code>GFX_decision_icon_name</code> для рішень та <code>GFX_decision_category_icon_name</code> для категорій, або, навпаки, щоб використати <code>GFX_decision_sprite_name</code> у рішенні, воно повинно мати <code>icon = sprite_name</code>. Однак, <code>icon = GFX_decision_icon_name</code> також працюватиме, оскільки гра перевірить <code>spriteType</code> з точно такою ж назвою. Загалом, розробник сам вирішує, чи включати <code>GFX_decision_/GFX_decision_category_</code> в іконку чи ні.</p>
+
+            <h3 id="priority">2.3. Пріоритет</h3>
+            <p>Пріоритет використовується для зміни порядку відображення рішень або категорій зверху вниз, причому вищий пріоритет знаходиться ближче до верху. За замовчуванням рішення має пріоритет 1. Пріоритет рішення можна встановити в короткій формі для статичного значення або в довгій формі, подібно до форматування <code>ai_will_do</code>.</p>
+            <p>У короткій формі наступний код встановить для рішення або категорії значення пріоритету 10: <code>priority = 10</code></p>
+            <p>У довгій формі наступний код матиме значення пріоритету 13 для POL та 3 для інших країн:</p>
+            <pre><code>priority = {
+    base = 3
+    modifier = {
+        add = 10
+        tag = POL
+    }
+}</code></pre>
+
+            <h3 id="state-highlighting">2.4. Підсвічування штатів</h3>
+            <p>Рішення або всі рішення в категорії можуть бути налаштовані на підсвічування штату або кількох штатів контуром при наведенні на них у меню вибору. Ось код, необхідний для цього:</p>
+            <pre><code>highlight_states = {
+    highlight_state_targets = {
+        state = 123
+        state = 321
+    }
+    highlight_color_while_active = 3
+    highlight_color_before_active = 2
+}</code></pre>
+            <p><code>highlight_state_targets</code> вибирає конкретний штат або кілька штатів, які будуть підсвічені. Якщо штат невідомий, замість цього можна використовувати <code>highlight_states_trigger</code> як блок тригерів, що оцінюється для кожного штату на карті.</p>
+            <p><code>highlight_color_before_active</code> — це колір, який матиме підсвічування штату перед вибором рішення, від 0 до 3. Якщо не встановлено, за замовчуванням буде білий контур.</p>
+            <p><code>highlight_color_while_active</code> — це колір, який матиме підсвічування штату після вибору рішення під час таймера, перш ніж воно буде видалено, від 0 до 3. Якщо не встановлено, за замовчуванням буде білий контур.</p>
+
+            <h3 id="province-highlighting">2.5. Підсвічування провінцій</h3>
+            <p>Крім підсвічування штатів, з патчу 'Stella Pollaris' (1.13.6) також можливо підсвічувати окремі провінції. Ось код, необхідний для цього:</p>
+            <pre><code>highlight_states = {
+    highlight_state_targets = { state = 123 }
+    highlight_provinces = { 123 213 321 232 }
+}</code></pre>
+            <p>Де <code>highlight_provinces = { ... }</code> — це ефект, який зберігає окремі провінції для підсвічування.</p>
+
+            <hr>
+            <h2 id="arguments-categories">3. Аргументи для категорій</h2>
+            <p><em>Це вікі, що підтримується спільнотою. Якщо ви помітили помилку, будь ласка, допоможіть її виправити.</em></p>
+            <p>Ці аргументи можуть використовуватися лише в категоріях і не можуть використовуватися в окремих рішеннях.</p>
+
+            <h3 id="picture-cat">3.1. Зображення</h3>
+            <p>Категорія рішень може мати визначене зображення на додаток до своєї звичайної іконки. Зображення відображатиметься зліва від опису категорії, зміщуючи його вліво. Зображення використовують спрайти, визначені в будь-якому файлі <code>/Hearts of Iron IV/interface/*.gfx</code>, за замовчуванням у <code>decisions.gfx</code>. Спрайт з назвою <code>GFX_decision_category_picture</code> можна встановити як зображення категорії за допомогою <code>picture = GFX_decision_category_picture</code>. Категорія повинна мати визначений опис у локалізації, щоб зображення з'явилося.</p>
+
+            <h3 id="visibility-empty">3.2. Видимість при порожнечі</h3>
+            <p>За замовчуванням категорія рішень невидима, якщо в ній немає принаймні одного видимого рішення. Це не завжди корисно, оскільки категорія може відображати важливу для гравця інформацію у своєму описі. Щоб це змінити, ви можете додати рядок <code>visible_when_empty = yes</code> всередині категорії рішень.</p>
+
+            <h3 id="map-area">3.3. Область на карті</h3>
+            <p>Категорії рішень може бути призначена область на карті, яка відображатиметься у верхній частині списку рішень подібно до рішення. Натискання на кнопку перемістить камеру до вказаного штату або штатів, а також встановить рівень масштабування на задане значення. Це рекомендується робити в категоріях рішень, що містять рішення, спрямовані на штати. Визначення області на карті виглядає так:</p>
+            <pre><code>on_map_area = {
+    state = 123 
+    name = my_localisation_key
+    zoom = 850
+    target_root_trigger = {
+        tag = ENG
+    }
+}</code></pre>
+            <p><code>state</code> встановлює один штат, який використовується як центр області, куди переміститься камера. Якщо область на карті має бути динамічною, можна використовувати форматування, подібне до цільових рішень, де доступні та змішувані <code>targets</code>, <code>target_array</code> та <code>target_trigger</code>.</p>
+            <p><code>name</code> — це ключ локалізації, який використовуватиметься як назва псевдо-рішення, що переміщує камеру до області на карті.</p>
+            <p><code>zoom</code> — це рівень масштабування для області на карті, встановлений у кількості пікселів від землі, тобто менше значення означає більше наближення. Для порівняння, за замовчуванням гравець може змінювати масштабування камери між 50<sup>[1]</sup> та 3000<sup>[2]</sup>.</p>
+            <p>Крім того, кожен з блоків тригерів, визначених для рішень та категорій (крім <code>available</code>), може знаходитися всередині <code>on_map_area</code>, наприклад, <code>target_root_trigger</code>.</p>
+            <p>Приклад <code>map_area</code> з динамічним тригером цілі:</p>
+            <pre><code>on_map_area = {
+    target_array = controlled_states
+    name = occupied_states_map_area
+    zoom = 150
+    target_trigger = {
+        FROM = {
+            NOT = { is_owned_by = ROOT }
+        }
+    }
+}</code></pre>
+
+            <h3 id="scripted-gui-cat">3.4. Скриптовий GUI</h3>
+            <p>Категорії рішень можна налаштувати так, щоб вона мала скриптовий контейнер графічного користувацького інтерфейсу всередині категорії, що відображається під описом. Відповідний скриптовий GUI повинен мати тип контексту <code>decision_category</code>, щоб це працювало. Це встановлюється за допомогою <code>scripted_gui = my_scripted_gui</code>. Дивіться деталі на спеціальній сторінці для <a href="https://hoi4.paradoxwikis.com/Scripted_GUI" target="_blank" rel="noopener noreferrer">скриптового GUI</a>.</p>
+
+            <hr>
+            <h2 id="category-examples">4. Приклади категорій</h2>
+            <pre><code>POL_my_category = {
+    allowed = {
+        tag = POL
+    }
+    priority = 10
+    picture = GFX_decision_category_picture
+    icon = POL_category
+    visible_when_empty = yes
+    scripted_gui = POL_scripted_gui
+}
+my_map_category = {
+    visible = {
+        has_completed_focus = my_focus
+    }
+    icon = my_map
+    highlight_states = {
+        highlight_states_trigger = {
+            is_owned_by = ROOT
+            is_capital = yes
+        }
+    }
+    on_map_area = {
+        state = 123 
+        targets = { capital }
+        zoom = 350
+    }
+}</code></pre>
+
+            <hr>
+            <h2 id="arguments-decisions">5. Аргументи для рішень</h2>
+            <p>Ці аргументи можуть використовуватися лише в рішеннях і не можуть використовуватися в категоріях.</p>
+
+            <h3 id="effects-selection">5.1. Ефекти при виборі</h3>
+            <p><code>complete_effect</code> — це блок ефектів, який виконується негайно при виборі рішення (запускаючи таймер, якщо він є).</p>
+            <pre><code>complete_effect = {
+    annex_country = { target = QAT }
+}</code></pre>
+
+            <h3 id="decision-reappearing">5.2. Повторна поява рішення</h3>
+            <p>За замовчуванням рішення знову з'являється наступного дня після його прийняття. Щоб збільшити час перезарядки в днях, можна використовувати <code>days_re_enable = 123</code>, щоб вказати більшу кількість днів для перезарядки.</p>
+            <p>Щоб рішення зникло назавжди після виконання, рядок коду <code>fire_only_once = yes</code> забезпечить це, роблячи можливим виконання рішення лише один раз для кожної країни.</p>
+
+            <h3 id="decision-cost">5.3. Вартість рішення</h3>
+            <p>Щоб призначити рішенню вартість у політичній владі, використовується аргумент <code>cost = <int></code>. Вартості можна призначити змінну. Як приклад рішення, якому призначено вартість 50 політичної влади:</p>
+            <pre><code>find_resources = {
+    develop_infrastructure = {
+        cost = 50
+        available = {
+            has_manpower > 500
+        }
+        complete_effect = {
+            random_owned_state = {
+                 add_building_construction = { type = infrastructure level = 2 instant_build = yes }
+            }
+            add_manpower = -500
+        }
+    }
+}</code></pre>
+            <p>Альтернативно, рішення також може приймати власний рядок локалізації як вартість. Це робиться наступним чином:</p>
+            <pre><code>custom_cost_trigger = {
+    <тригери>
+}
+custom_cost_text = <ключ_локалізації></code></pre>
+            <p>Якщо <code>custom_cost_trigger</code> виконано, то для локалізації буде використано <code><ключ_локалізації></code>, інакше — <code><ключ_локалізації>_blocked</code>. <code><ключ_локалізації>_tooltip</code> використовуватиметься при наведенні на вартість. Наприклад, для наступного:</p>
+            <pre><code>custom_cost_trigger = {
+    command_power > 14
+}
+custom_cost_text = decision_cost_CP_15</code></pre>
+            <p>Файл локалізації матиме наступне:</p>
+            <pre><code>l_english:
+ decision_cost_CP_15: "£command_power  §Y15§!"
+ decision_cost_CP_15_blocked: "£command_power  §R15§!"
+ decision_cost_CP_15_tooltip: "Прийняття рішення коштує £command_power  §Y15§!"</code></pre>
+            <p>Для відображення іконок використовуються <a href="https://hoi4.paradoxwikis.com/Localisation#Text_icons" target="_blank" rel="noopener noreferrer">текстові іконки</a>. Власна вартість насправді нічого не коштуватиме, і те, що ви встановите як вартість, доведеться відняти в <code>complete_effect</code> рішення, бажано як прихований ефект.</p>
+            <p>Оскільки власну вартість не можна використовувати разом зі звичайною вартістю, якщо вона включає політичну владу, ШІ не знатиме, що йому слід накопичити її певну кількість перед прийняттям рішення. Це можна виправити за допомогою <code>ai_hint_pp_cost = 100</code>: цей атрибут змусить ШІ думати, що рішення використовуватиме 100 політичної влади, незалежно від того, чи так це насправді, забезпечуючи, що він накопичить стільки перед спробою його використати. Це має бути постійна сума, а не змінна.</p>
+
+            <h3 id="timer-selection">5.4. Таймер при виборі</h3>
+            <p>Щоб додати таймер між вибором рішення та застосуванням деяких його ефектів, використовується <code>days_remove = 123</code> для визначення кількості днів. Якщо встановлено -1, рішення ніколи не буде видалено через закінчення таймера, хоча додаткові блоки тригерів можуть його видалити.</p>
+            <p>Щодо визначення ефектів, які виконуватимуться після закінчення таймера, використовується <code>remove_effect = { ... }</code> як блок ефектів. Зауважте, що <code>complete_effect = { ... }</code> — це коли рішення обрано, починаючи таймер, а не коли таймер закінчується. Іншими словами, цей таймер з'являється після завершення рішення і залишається там доти, доки рішення не буде видалено. Крім того, <code>remove_trigger = { ... }</code> використовується для миттєвого видалення рішення, як тільки тригери всередині нього будуть виконані для країни, також спрацьовуючи для блоку <code>remove_effect = { ... }</code>.</p>
+            <p>Крім того, можна змусити рішення застосовувати модифікатори протягом тривалості таймера, де <code>modifier = { ... }</code> надає блок модифікаторів. Подібно до ідей, <code>targeted_modifier = { ... }</code> також існує як спосіб застосування цільових модифікаторів, у тому ж форматі з <code>tag = BHR</code>, що встановлює ціль, наприклад, наступний приклад:</p>
+            <pre><code>targeted_modifier = {
+    tag = ENG
+    attack_bonus_against = 0.1
+    defense_bonus_against = -0.15
+}</code></pre>
+            <p>Щоб змусити таймер скасуватися достроково без надання ефектів, <code>visible = { ... }</code> за замовчуванням не працює. Натомість використовується <code>cancel_trigger = { ... }</code> як блок тригерів. Після того, як він буде оцінений як істинний, таймер рішення закінчується без виконання <code>remove_effect = { ... }</code>. <code>cancel_if_not_visible = yes</code>, за замовчуванням хибно, служить простим способом додати тригери <code>visible</code> до блоку <code>cancel_trigger = { ... }</code>. Після скасування рішення виконується блок ефектів <code>cancel_effect = { ... }</code>. Це може бути корисним як спосіб скасувати ефекти, застосовані в <code>complete_effect</code>.</p>
+
+            <h3 id="ai-decision">5.5. ШІ</h3>
+            <p><strong>Основна стаття: <a href="https://hoi4.paradoxwikis.com/AI_modding#AI_will_do" target="_blank" rel="noopener noreferrer">Моддінг ШІ § AI will do</a></strong></p>
+            <p>Шанс для ШІ вибрати рішення визначається блоком <code>ai_will_do = { ... }</code> всередині рішення, який є блоком MTTH (середній час до настання події). За замовчуванням рішення ніколи не буде обрано ШІ, і цей блок необхідний, щоб ШІ його обирав.</p>
+            <p>Як блок MTTH, структура складається з <code>factor = 10</code> або <code>base = 10</code> для вибору початкового значення та <code>modifier = { ... }</code> як блоків тригерів, що призначають <code>add/factor/base</code> у вказаному порядку. Наприклад, наступне змусить рішення ніколи не обиратися ШІ, якщо тільки країна не перебуває у війні з ITA, у цьому випадку воно має вагу 10:</p>
+            <pre><code>ai_will_do = {
+    base = 0
+    modifier = {
+        add = 10
+        has_war_with = ITA
+    }
+}</code></pre>
+
+            <h3 id="warning-war">5.6. Попередження про війну</h3>
+            <p>Якщо ваше рішення призводить до того, що одна нація оголошує війну іншій нації, існує кілька аргументів, які можна використовувати для інформування цільової нації про наближення війни, а також для сповіщення ШІ про необхідність почати переміщення військ до кордону:</p>
+            <ul>
+                <li><code>war_with_on_remove = TAG</code> змусить гру припускати, що рішення у своєму <code>remove_effect</code> оголосить війну вказаній країні, змушуючи її готуватися, коли починається таймер.</li>
+                <li><code>war_with_on_complete = TAG</code> змусить гру припускати, що рішення у своєму <code>complete_effect</code> оголосить війну вказаній країні, змушуючи її готуватися, коли рішення стане доступним.</li>
+            </ul>
+            <p>Ці аргументи не працюють для цільових рішень; див. <a href="#warning-war-targeted">Цільові рішення: Попередження про війну</a>.</p>
+
+            <h3 id="fixed-random-seed">5.7. Фіксоване випадкове зерно</h3>
+            <p>Рішення за замовчуванням використовують фіксоване випадкове зерно. Це означає, що такі області видимості, як <code>random_list</code> або <code>random_owned_controlled_state</code>, вибиратимуть те саме щоразу, коли рішення використовується, роблячи вибір на початку гри. <code>fixed_random_seed = no</code> забезпечить динамічність випадкового зерна, роблячи можливим різний результат.</p>
+
+            <hr>
+            <h2 id="decision-examples">6. Приклади рішень</h2>
+            <p>Припускається, що <code>QAT_category</code> та <code>BHR_category</code> вже створені в будь-якому файлі <code>/Hearts of Iron IV/common/decisions/categories/*.txt</code>.</p>
+            <pre><code>QAT_category = {
+    QAT_example = {
+        allowed = {
+            tag = QAT
+        }
+        icon = QAT_example      #Для GFX_decision_QAT_example
+        fire_only_once = yes
+        days_remove = 100
+        war_with_on_remove = BHR
+        modifier = {
+            training_time_factor = -0.3
+        }
+        remove_effect = {
+            create_wargoal = {
+                target = BHR
+                type = puppet_focus_wargoal
+            }
+        }
+        cancel_trigger = {
+            OMA = {
+                is_subject_of = BHR
+            }
+        }
+        cancel_effect = {
+            BHR = {
+                puppet = ROOT
+            }
+        }
+    }
+}
+BHR_category = {
+    BHR_example = {
+        allowed = {
+            tag = BHR
+        }
+        visible = {
+            has_war_with = QAT
+        }
+        available = {
+            QAT = {
+                surrender_progress > 0.5
+            }
+        }
+        icon = GFX_decision_BHR_example
+        priority = 10
+        days_re_enable = 200
+        custom_cost_trigger = {
+            has_command_power > 14
+        }
+        custom_cost_text = decision_cost_CP_15
+        war_with_on_complete = OMA
+        fixed_random_seed = no
+        complete_effect = {
+            hidden_effect = {
+                add_command_power = -15
+            }
+            annex_country = { target = QAT }
+            random = {
+                chance = 50
+                OMA = { load_oob = "OMA_prepared" }
+            }
+            declare_war_on = {
+                target = OMA
+                type = annex_everything
+            }
+        }
+    }
+}</code></pre>
+
+            <hr>
+            <h2 id="missions">7. Місії</h2>
+            <p>Місії — це інший тип рішень, що активуються, коли тригери істинні, і вимагають від гравця виконання дії для позитивного результату місії. Вони здебільшого використовують ті ж атрибути, що й звичайні рішення, але є деякі суттєві відмінності. Зокрема:</p>
+            <ul>
+                <li><code>days_mission_timeout = 123</code> — це кількість днів, протягом яких триватиме місія, і це атрибут, який перетворює рішення на місію.</li>
+                <li><code>timeout_effect = { ... }</code> — це ефекти, які будуть виконані для країни, якщо таймер закінчиться або не буде перерваний.</li>
+                <li><code>available = { ... }</code> визначає тригери, які роблять місію можливою для вибору, виконуючи <code>complete_effect</code>. За замовчуванням завжди істинно, що призводить до миттєвого зникнення.</li>
+                <li><code>selectable_mission = yes</code>, якщо встановлено, перетворює місію на таку, де гравець повинен натиснути кнопку. Якщо не встановлено або встановлено на <code>false</code>, то <code>complete_effect</code> спрацює, як тільки <code>available</code> стане істинним.</li>
+                <li><code>activation = { ... }</code> визначає тригери, які повинні бути виконані, щоб рішення з'явилося, припускаючи, що <code>allowed</code> було істинним на початку гри. Це перевіряється щодня. <code>visible = { ... }</code> нічого не робить і не повинен використовуватися в місіях.</li>
+                <li>Ефект <code>activate_mission = mission_name</code> може обійти як <code>allowed</code>, так і <code>activation</code>, і зазвичай краще оптимізовано використовувати його для появи рішення, замість того, щоб покладатися на автоматичну активацію.</li>
+                <li><code>is_good = yes</code> змінює підказки, що відображаються гравцеві в невибірній місії. За замовчуванням або якщо встановлено на <code>false</code>, підказка стверджує, що <code>available</code> завершить місію, називаючи <code>timeout_effect</code> ефектами, якщо її не завершено. Якщо встановлено на <code>true</code>, <code>complete_effect</code> натомість зміниться на "Ефекти при невдачі". Це суто графічно і може використовуватися для кращого донесення до гравця, чи слід йому прагнути виконати передумови, чи уникати їх істинності.</li>
+                <li><code>war_with_on_timeout = TAG</code> змусить гру припускати, що місія у своєму <code>timeout_effect = { ... }</code> оголосить війну вказаній країні. Це використовується для того, щоб ШІ підготувався до оголошення війни та зібрав свої війська на кордоні. Це також надасть сповіщення цілі та всім її союзникам про те, що виправдовується привід для війни.</li>
+            </ul>
+            <p>Інші атрибути, такі як <code>cancel_trigger</code> або <code>cancel_effect</code>, загалом можуть використовуватися всередині місій і повинні працювати так само, як і поза ними.</p>
+
+            <h3 id="mission-example">7.1. Приклад місії</h3>
+            <pre><code>my_mission = {
+    activation = {
+        has_civil_war = yes
+    }
+    available = {
+        has_civil_war = no
+        has_war = yes
+    }
+    cancel_trigger = {
+        has_war = no
+    }
+    icon = mission_icon     # Для GFX_decision_mission_icon
+    is_good = yes
+    war_with_on_timeout = SOV
+    days_mission_timeout = 100
+    selectable_mission = yes
+    complete_effect = {
+        add_ideas = my_idea
+    }
+    timeout_effect = {
+        declare_war_on = {
+            target = SOV
+            type = annex_everything
+        }
+    }
+}</code></pre>
+
+            <hr>
+            <h2 id="targeted-decisions">8. Цільові рішення</h2>
+            <p>Крім звичайних рішень, які приймаються країною щодо самої себе, можливо зробити рішення цільовим щодо іншої країни або групи країн. У цьому випадку рішення клонуватиме себе для кожної країни, на яку воно націлене, розміщуючи прапор країни в правому нижньому куті іконки рішення. Цільову країну можна буде посилатися в коді за допомогою <code>FROM</code>, тоді як <code>ROOT</code> все ще є країною, яка отримує рішення. Незважаючи на те, що назви можуть вводити в оману, <code>FROM</code> є ціллю рішення, а не країною, що його приймає. <code>fire_only_once</code> у цьому випадку змусить рішення спрацювати лише один раз для кожної цільової країни: рішення, націлене на BLR, не зникне, якщо буде виконано рішення з тим самим ID, націлене на LIT. Місії, як і звичайні рішення, можуть бути цільовими.</p>
+            <p>Рішення стає цільовим, якщо до нього додано будь-який спосіб перевірки цілі:</p>
+
+            <h3 id="checking-target">8.1. Перевірка цілі</h3>
+            <p>Існує кілька способів обмежити вибір цілей. Якщо будь-який з цих трьох присутній у рішенні, воно буде позначено як цільове.</p>
+            <p>Основний спосіб обмежити вибір кількома країнами — це <code>targets = { TAG TAG }</code>. У цьому випадку, якщо ви хочете, щоб гра перевіряла кожну країну з цим оригінальним тегом (включаючи повстання громадянської війни та інші типи динамічних країн), рядок коду <code>targets_dynamic = yes</code> забезпечить, що гра перевірятиме більше, ніж країну, якій насправді належить тег країни. Крім того, за замовчуванням неможливо націлитися на неіснуючу країну. Аргумент <code>target_non_existing = yes</code> можна використовувати для зняття цього обмеження.</p>
+            <p>Крім того, можливо використовувати масиви для обмеження вибору за допомогою <code>target_array = array_name</code>, де масив повинен бути призначений країні. Ви можете побачити список масивів, автоматично згенерованих грою, <a href="https://hoi4.paradoxwikis.com/List_of_arrays" target="_blank" rel="noopener noreferrer">тут</a>.</p>
+            <p>Разом з будь-яким з двох попередніх способів або без них, <code>target_trigger = { ... }</code> — це блок тригерів, що оцінюється щодня як для <code>FROM</code>, так і для <code>ROOT</code>, якщо <code>target_root_trigger</code> оцінюється як істинний.</p>
+            <p>Для цільових рішень також можна використовувати <code>target_root_trigger</code> як блок тригерів, який безперервно перевіряє щодня, чи виконано <code>allowed</code>, що необхідно для того, щоб рішення або вся категорія була видимою на екрані вибору рішень. Це перевіряє лише <code>ROOT</code>, виконуючись перед <code>target_trigger = { ... }</code>. Це існує для оптимізації, оскільки перевірка умови для однієї країни щодня займає набагато менше часу, ніж для кожної комбінації країн.</p>
+
+            <h4 id="triggers-overview">8.1.1. Огляд тригерів</h4>
+            <ul>
+                <li><code>allowed = { ... }</code> перевіряє країну, яка повинна отримати це рішення, і перевіряє лише на початку гри або при перезавантаженні рішень, наприклад, при завантаженні збереження. Якщо хибно, рішення назавжди вимкнено.</li>
+                <li><code>target_root_trigger = { ... }</code> перевіряє країну, яка повинна отримати це рішення, щодня. Якщо хибно, рішення не з'явиться до наступної щоденної перевірки. Незважаючи на перевірку лише однієї країни, це все одно робить рішення цільовим.</li>
+                <li><code>target_trigger = { ... }</code> перевіряє будь-які країни (або штати), які відповідають <code>targets = { ... }</code> та <code>target_array = array_name</code>, якщо вони присутні. Тут <code>ROOT</code> (область видимості за замовчуванням) — це країна, яка отримує рішення, а <code>FROM</code> — потенційна ціль рішення. Це перевіряється щодня, роблячи рішення невидимим до перевірки наступного дня, якщо хибно. Додавання цього автоматично робить рішення цільовим.</li>
+                <li><code>visible = { ... }</code> та <code>available = { ... }</code> перевіряються кожен тік. Якщо рішення цільове, то перевіряється <code>FROM</code> разом з <code>ROOT</code>, інакше перевіряється лише <code>ROOT</code>.</li>
+            </ul>
+
+            <h3 id="warning-war-targeted">8.2. Попередження про війну</h3>
+            <p>Звичайні аргументи <code>war_with_on_</code> не працюють, якщо використовується <code>FROM</code> як ціль. Замість них існують альтернативи спеціально для цільових рішень:</p>
+            <ul>
+                <li><code>war_with_target_on_complete = yes</code> - Еквівалентно <code>war_with_on_complete = FROM</code></li>
+                <li><code>war_with_target_on_remove = yes</code> - Еквівалентно <code>war_with_on_remove = FROM</code></li>
+                <li><code>war_with_target_on_timeout = yes</code> - Еквівалентно <code>war_with_on_timeout = FROM</code></li>
+            </ul>
+
+            <h3 id="additional-note-targeted">8.3. Додаткова примітка</h3>
+            <p>Подібно до місій, існує ефект <code>activate_targeted_decision = { target = TAG decision = my_decision }</code>. Якщо можливо, рекомендується використовувати цей ефект замість того, щоб дозволяти йому активуватися автоматично, роблячи його ніколи не дозволеним. Наприклад, якщо цільове рішення активується перебуванням у війні з країною, <code>on_war_relation_added</code> в <code>on_actions</code> можна використовувати для його активації замість використання <code>target_array = enemies</code>.</p>
+
+            <h3 id="targeted-decision-example">8.4. Приклад цільового рішення</h3>
+            <pre><code>my_targeted_decision = {
+    target_root_trigger = {
+        has_completed_focus = my_focus
+    }
+    targets = { BHR QAT SAU OMA YEM IRQ SYR LEB ISR PAL }
+    targets_dynamic = yes
+    target_trigger = {
+        FROM = {
+            has_idea = my_idea
+        }
+    }
+    icon = my_icon
+    cost = 20
+    war_with_target_on_complete = yes
+    complete_effect = {
+        create_wargoal = {
+            target = FROM
+            type = annex_everything
+        }
+    }
+}</code></pre>
+
+            <hr>
+            <h2 id="state-targeted-decisions">9. Цільові рішення для штатів</h2>
+            <p>Якщо рішення має <code>state_target = yes</code>, то замість цього воно буде націлене на штат. Можливі значення: <code>yes</code>, <code>no</code>, <code>any</code>, <code>any_owned_state</code>, <code>any_controlled_state</code>, <code>continent_key</code> (europe, africa, north_america...). Це матиме ефект лише якщо не вказано жодних 'цілей', інакше це слід встановити на 'any' (або 'yes'), якщо цілі використовуються. Якщо не пропущено або не встановлено на "no", робить рішення цільовим для штату. Які штати будуть перевірені, залежить від значення:</p>
+            <ul>
+                <li><code>any</code> (або <code>yes</code>): перевірятиме кожен штат у грі на відповідність 'target_trigger'.</li>
+                <li><code>any_owned_state</code>: перевірятиме кожен штат, що належить країні. Це еквівалентно додаванню 'owner = ROOT' у target_trigger.</li>
+                <li><code>any_controlled_state</code>: перевірятиме кожен штат, контрольований країною. Це еквівалентно додаванню 'is_controlled_by = ROOT' у target_trigger.</li>
+                <li><code>continent_key</code> (europe, africa, north_america...): перевірятиме кожен штат на континенті. Це еквівалентно додаванню 'is_on_continent = xxx' у target_trigger.</li>
+            </ul>
+            <p>При використанні явних цілей, таких як через <code>targets = {}</code> або <code>target_array = yes</code>, працюватимуть лише <code>state_target = yes/any</code>, інші спричинять помилку.</p>
+            <p>Націлювання все ще працює так само, маючи <code>FROM</code> як область видимості штату. <code>targets</code> стає <code>targets = { 123 321 }</code> або, у випадку одного штату, також можна використовувати <code>targets = { state = 123 }</code>.</p>
+            <p>Рішення, націлені на штати, матимуть іконку, що з'являється над штатами, поки відкрито меню рішень. Щоб уникнути плутанини, до категорії рішень можна додати область на карті.</p>
+            <p>Крім того, аргумент <code>on_map_mode</code> визначатиме, де з'являтимуться цільові рішення.</p>
+            <ul>
+                <li><code>on_map_mode = map_only</code> змусить цільові рішення з'являтися лише на карті.</li>
+                <li><code>on_map_mode = decision_view_only</code> змусить цільові рішення з'являтися лише в меню рішень.</li>
+                <li><code>on_map_mode = map_and_decisions_view</code> змусить цільові рішення з'являтися як на карті, так і в меню рішень.</li>
+            </ul>
+
+            <h3 id="example-state-targeted">9.1. Приклад</h3>
+            <pre><code>my_state_targeted_decision = {
+    state_target = yes
+    target_root_trigger = {
+        has_completed_focus = my_focus
+    }
+    target_array = GER.core_states
+    target_trigger = {
+        FROM = {
+            is_owned_by = ROOT
+        }
+    }
+    on_map_mode = map_and_decisions_view
+    icon = my_icon
+    cost = 20
+    complete_effect = {
+        FROM = {
+            remove_core_of = GER
+        }
+    }
+}</code></pre>
+
+        </div> <!-- кінець #main-content -->
+        
+        <hr> 
+
+        <!-- Фокусоване навігаційне меню (таке ж, як на головній сторінці) -->
+        <nav id="focused-navigation-menu" class="focused-navigation">
+            <h2>Основні розділи в роботі</h2>
+            <p class="focused-nav-description">Швидкий доступ до сторінок, що зараз створюються та перекладаються.</p>
+            <div class="focused-nav-links">
+                <a href="decisions_uk.html" class="nav-card current-page-link"> 
+                    <span class="nav-card-title">Decisions</span>
+                    <span class="nav-card-description">(Рішення)</span>
+                </a>
+                <a href="events.html" class="nav-card"> 
+                    <span class="nav-card-title">Events</span>
+                    <span class="nav-card-description">(Події)</span>
+                </a>
+                <a href="ideas_uk.html" class="nav-card"> 
+                    <span class="nav-card-title">Ideas</span>
+                    <span class="nav-card-description">(Ідеї)</span>
+                </a>
+                <a href="national_focuses.html" class="nav-card"> 
+                    <span class="nav-card-title">National focuses</span>
+                    <span class="nav-card-description">(Національні фокуси)</span>
+                </a>
+            </div>
+        </nav>
+    </div> <!-- кінець .container -->
+
+    <footer>
+        <p>Переклад сторінки Decision modding - Hearts of Iron 4 Wiki. Оригінал: <a href="https://hoi4.paradoxwikis.com/Decision_modding" target="_blank" rel="noopener noreferrer">hoi4.paradoxwikis.com/Decision_modding</a></p>
+        <p>Дизайн та переклад (за допомогою ШІ) адаптовано для особистого використання.</p>
+    </footer>
+</div> <!-- кінець .page-wrapper -->
+
+    <script>
+        const themeSwitcher = document.getElementById('theme-switcher');
+        const body = document.body;
+        const defaultBaseClass = 'theme-dark-base'; 
+
+        function applyTheme(themeName) {
+            body.classList.remove('theme-light', 'theme-aistudio-dark', 'theme-nord-dark', 'theme-dracula', 'theme-one-dark-pro', defaultBaseClass);
+
+            if (themeName === 'theme-light') {
+                body.classList.add('theme-light');
+            } else {
+                body.classList.add(defaultBaseClass); 
+                body.classList.add(themeName);       
+            }
+            if (themeSwitcher) {
+                 themeSwitcher.value = themeName;
+            }
+            localStorage.setItem('theme', themeName); 
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'theme-light';
+        applyTheme(savedTheme);
+
+        if (themeSwitcher) {
+            themeSwitcher.addEventListener('change', function() {
+                applyTheme(this.value);
+            });
+        }
+        
+        function switchLanguage(lang) {
+            const currentPage = window.location.pathname.split("/").pop(); // Отримуємо назву поточного файлу
+            let targetPage = '';
+
+            // Визначаємо базову назву файлу без мовного суфікса
+            let baseName = currentPage;
+            if (currentPage.includes('_uk.html')) {
+                baseName = currentPage.replace('_uk.html', '');
+            } else if (currentPage.includes('_ru.html')) {
+                baseName = currentPage.replace('_ru.html', '');
+            } else if (currentPage.endsWith('.html')) { // Для index.html або файлів без мовного суфікса
+                 baseName = currentPage.substring(0, currentPage.length - 5);
+            }
+             if (baseName === 'index') baseName = 'index'; // Спеціальна обробка для index
+
+            if (lang === 'uk') {
+                targetPage = (baseName === 'index' || baseName === '') ? 'index.html' : `${baseName}_uk.html`;
+                if (currentPage === targetPage || (currentPage === 'index.html' && targetPage === 'index.html')) {
+                     alert('Ви вже на українській версії.'); return;
+                }
+            } else if (lang === 'ru') {
+                targetPage = (baseName === 'index' || baseName === '') ? 'index_ru.html' : `${baseName}_ru.html`;
+                 if (currentPage === targetPage) {
+                     alert('Ви вже на російській версії.'); return;
+                 }
+            }
+            
+            if (targetPage) {
+                // Перевіряємо, чи існує цільова сторінка, перш ніж перенаправляти (опціонально, але добре для UX)
+                // Це вимагатиме AJAX-запиту або списку існуючих сторінок, що ускладнить приклад.
+                // Поки що просто перенаправляємо.
+                window.location.href = targetPage;
+            }
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                try {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const topBarHeight = document.querySelector('.top-bar')?.offsetHeight || 0;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - topBarHeight - 15; 
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+
+                         if(history.pushState && targetId !== "#") { 
+                            history.pushState(null, null, targetId);
+                        } else if (targetId !== "#") {
+                            location.hash = targetId;
+                        }
+                    } else {
+                        console.warn("Елемент для прокрутки не знайдено:", targetId);
+                    }
+                } catch (error) {
+                     console.warn("Помилка при виборі елемента для прокрутки:", targetId, error);
+                }
+            });
+        });
+
+        // Додатковий JavaScript для кнопки "Вгору"
+        var scrollTopButton = document.createElement("button");
+        scrollTopButton.innerHTML = "↑";
+        scrollTopButton.id = "scrollTopBtn";
+        scrollTopButton.title = "Нагору";
+        scrollTopButton.onclick = function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        document.body.appendChild(scrollTopButton);
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                scrollTopButton.style.display = "block";
+            } else {
+                scrollTopButton.style.display = "none";
+            }
+        };
+
+    </script>
+</body>
+</html>
