@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моддінг HOI4 (Розширений Переклад)</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* styles.css (вбудовано) */
+
+        /* --- Базові Налаштування --- */
+        :root {
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-headings: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            --transition-speed: 0.25s;
+            --container-max-width: 1200px;
+            --border-radius-main: 8px;
+            --border-radius-small: 5px;
+
+            /* Кольори світлої теми */
+            --light-bg-page: #f8f9fa;
+            --light-bg-container: #ffffff;
+            --light-text-primary: #212529;
+            --light-text-secondary: #495057;
+            --light-text-headings: #121416;
+            --light-link-color: #0056b3; /* Менш яскравий синій */
+            --light-link-hover-color: #003f80;
+            --light-border-color: #dee2e6;
+            --light-hr-color: #ced4da;
+            --light-code-bg: #e9ecef;
+            --light-code-text: #212529;
+            --light-code-border: #d1d9e0;
+            --light-pre-bg: #f1f3f5;
+            --light-disclaimer-bg: #e6f7ff;
+            --light-disclaimer-text: #004085;
+            --light-disclaimer-border: #b3d7ff;
+            --light-toc-bg: #f0f8ff;
+            --light-toc-border: #cce5ff;
+            --light-toc-heading-color: #004d99;
+            --light-controls-bg: #ffffff;
+            --light-controls-border: #ced4da;
+            --light-select-bg: #ffffff;
+            --light-select-text: #495057;
+            --light-select-border: #ced4da;
+            --light-nav-button-bg: #0056b3; /* Менш яскравий */
+            --light-nav-button-text: #ffffff;
+            --light-nav-button-hover-bg: #003f80;
+            --light-nav-category-bg: #f9f9f9;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-weight: 400;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            font-size: 16.5px;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: var(--container-max-width);
+            margin: 25px auto;
+            padding: 25px 30px;
+            border-radius: var(--border-radius-main);
+            transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            border-bottom: 1px solid var(--light-controls-border);
+            transition: background-color var(--transition-speed), border-color var(--transition-speed);
+            position: sticky; /* Зробити верхню панель "липкою" */
+            top: 0;
+            z-index: 1000; /* Щоб була поверх інших елементів */
+            background-color: var(--light-controls-bg); /* Потрібен фон для sticky */
+        }
+
+        .controls label { margin-right: 8px; font-size: 0.9em; font-weight: 500; }
+        .controls select {
+            padding: 7px 10px;
+            margin-right: 12px;
+            border-radius: var(--border-radius-small);
+            border: 1px solid var(--light-select-border);
+            font-family: var(--font-primary);
+            font-size: 0.85em;
+            background-color: var(--light-select-bg);
+            color: var(--light-select-text);
+            transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+            cursor: pointer;
+        }
+
+        .quick-nav-link .nav-button {
+            display: inline-block;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: var(--border-radius-small);
+            background-color: var(--light-nav-button-bg);
+            color: var(--light-nav-button-text);
+            transition: background-color var(--transition-speed), color var(--transition-speed), opacity var(--transition-speed);
+        }
+        .quick-nav-link .nav-button:hover {
+            background-color: var(--light-nav-button-hover-bg);
+            opacity: 0.9;
+        }
+
+        header {
+            padding: 30px 20px;
+            text-align: center;
+            transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+            border-bottom: 1px solid var(--light-border-color);
+            margin-top: 50px; /* Відступ через sticky top-bar */
+        }
+        header h1 {
+            margin:0;
+            font-family: var(--font-headings);
+            font-weight: 700;
+            font-size: 2.5em;
+            color: var(--light-text-headings);
+        }
+
+        footer {
+            border-top: 1px solid var(--light-border-color);
+            margin-top: auto; 
+            padding: 25px 20px;
+            text-align: center;
+            font-size: 0.85em;
+            color: var(--light-text-secondary);
+        }
+        footer a {
+            color: var(--light-link-color);
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0,0,0,0), var(--light-hr-color), rgba(0,0,0,0));
+            margin: 3em auto; 
+            width: 70%; 
+        }
+        body.theme-dark-base hr {
+             background-image: linear-gradient(to right, rgba(255,255,255,0), var(--dark-hr-color), rgba(255,255,255,0));
+        }
+
+
+        .disclaimer {
+            padding: 18px 20px;
+            margin-bottom: 30px;
+            border: 1px solid var(--light-disclaimer-border);
+            border-radius: var(--border-radius-small);
+            text-align: center;
+            font-size: 0.9em;
+            background-color: var(--light-disclaimer-bg);
+            color: var(--light-disclaimer-text);
+        }
+        .disclaimer p { margin: 5px 0; }
+        .disclaimer strong { font-weight: 600; }
+        .disclaimer a { 
+            color: var(--light-disclaimer-text);
+            font-weight: 600;
+            text-decoration: none; /* Прибрали підкреслення за замовчуванням */
+        }
+        .disclaimer a:hover { text-decoration: underline; opacity: 0.8; }
+
+
+        #main-content h1, #main-content h2, #main-content h3, #main-content h4 {
+            font-family: var(--font-headings);
+            margin-top: 2.5em;
+            margin-bottom: 1em;
+            padding-bottom: 0.4em;
+            border-bottom: 1px solid var(--light-border-color);
+            color: var(--light-text-headings);
+            font-weight: 700;
+        }
+        #main-content h1:first-child, #main-content h2:first-child { margin-top: 0.5em; }
+        #main-content h1 { font-size: 2.1em; } 
+        #main-content h2 { font-size: 1.8em; }
+        #main-content h3 { font-size: 1.5em; }
+        #main-content h4 { font-size: 1.25em; border-bottom: none; font-weight: 600; color: var(--light-text-primary); }
+
+        #main-content p { margin-bottom: 1.25em; color: var(--light-text-primary); }
+        #main-content ul, #main-content ol {
+            margin-left: 5px;
+            padding-left: 25px;
+            margin-bottom: 1.25em;
+        }
+        #main-content ul ul, #main-content ol ol { margin-top: 0.5em; margin-bottom: 0.5em;}
+        #main-content li { margin-bottom: 0.65em; }
+
+        #main-content strong { font-weight: 600; } 
+        #main-content em { font-style: italic; }
+
+        #main-content code { 
+            padding: 0.2em 0.45em;
+            margin: 0 0.1em;
+            font-size: 0.88em;
+            border-radius: var(--border-radius-small);
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            background-color: var(--light-code-bg);
+            color: var(--light-code-text);
+            border: 1px solid var(--light-code-border);
+        }
+        #main-content pre { 
+            padding: 1em 1.2em;
+            margin: 1.8em 0;
+            overflow-x: auto;
+            border-radius: var(--border-radius-small);
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            font-size: 0.9em;
+            line-height: 1.65;
+            background-color: var(--light-pre-bg);
+            color: var(--light-text-primary);
+            border: 1px solid var(--light-border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        #main-content pre code { 
+            padding: 0; margin: 0; font-size: inherit; background-color: transparent !important; 
+            border: none !important; color: inherit !important;
+        }
+
+        #main-content a {
+            color: var(--light-link-color);
+            font-weight: 500; 
+            text-decoration: none; /* Прибрали підкреслення */
+        }
+        #main-content a:hover {
+            color: var(--light-link-hover-color);
+            text-decoration: underline; /* Підкреслення при наведенні */
+        }
+
+        .table-of-contents {
+            padding: 1.2em 1.5em;
+            margin-bottom: 2.5em;
+            border-radius: var(--border-radius-small);
+            background-color: var(--light-toc-bg);
+            border: 1px solid var(--light-toc-border);
+        }
+        .table-of-contents h3 {
+            margin-top: 0;
+            border-bottom: 1px solid var(--light-toc-border);
+            padding-bottom: 0.6em;
+            margin-bottom: 0.8em;
+            font-size: 1.3em;
+            color: var(--light-toc-heading-color);
+            font-family: var(--font-headings);
+            font-weight: 600;
+        }
+        .table-of-contents ul { list-style-type: none; padding-left: 0; }
+        .table-of-contents ul ul { padding-left: 20px; margin-top: 0.3em; }
+        .table-of-contents li { margin-bottom: 0.4em;}
+        .table-of-contents li a { text-decoration: none; font-weight: 400; }
+        .table-of-contents li a:hover { text-decoration: underline; }
+
+
+       /* --- СТИЛІ ДЛЯ НОВОГО ФОКУСОВАНОГО НАВІГАЦІЙНОГО МЕНЮ --- */
+
+        .focused-navigation {
+            margin-top: 3em;
+            padding: 2em 1.5em 2.5em; /* Збільшив нижній падінг */
+            border-radius: var(--border-radius-main);
+            background-color: var(--light-nav-category-bg); /* Використовуємо змінну для світлого фону */
+            border-top: 2px solid var(--light-border-color);
+            text-align: center; /* Центруємо заголовок та опис */
+        }
+
+        .focused-navigation h2 {
+            font-family: var(--font-headings);
+            margin-top: 0;
+            margin-bottom: 0.5em; /* Менший відступ */
+            font-size: 1.8em; /* Трохи більший заголовок */
+            color: var(--light-text-headings);
+            padding-bottom: 0.5em;
+            /* border-bottom: 1px solid var(--light-border-color); Забрав нижню лінію для головного заголовка меню */
+        }
+
+        .focused-nav-description {
+            font-size: 0.95em;
+            color: var(--light-text-secondary);
+            margin-bottom: 2em; /* Більший відступ перед картками */
+            max-width: 600px; /* Обмежуємо ширину опису */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .focused-nav-links {
+            display: grid; /* Використовуємо grid для карток */
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Адаптивні колонки */
+            gap: 1.5em; /* Відстань між картками */
+            justify-content: center; /* Центруємо картки, якщо їх мало */
+        }
+
+        .nav-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Центруємо контент картки */
+            justify-content: center; /* Центруємо контент картки */
+            padding: 1.5em 1em; /* Падінги всередині картки */
+            background-color: var(--light-bg-container); /* Фон картки */
+            border-radius: var(--border-radius-small);
+            box-shadow: 0 3px 7px rgba(0,0,0,0.07);
+            text-decoration: none;
+            color: var(--light-text-primary); /* Основний колір тексту картки */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color var(--transition-speed);
+            min-height: 100px; /* Мінімальна висота картки */
+        }
+
+        .nav-card:hover {
+            transform: translateY(-4px) scale(1.02); /* Ефект підняття та легкого збільшення */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            background-color: var(--light-nav-button-hover-bg); /* Зміна фону при наведенні для світлої теми */
+            color: var(--light-nav-button-text); /* Зміна тексту при наведенні для світлої теми */
+        }
+        .nav-card:hover .nav-card-title,
+        .nav-card:hover .nav-card-description {
+            color: var(--light-nav-button-text); /* Забезпечуємо, що текст теж змінює колір */
+        }
+
+
+        .nav-card-title {
+            font-family: var(--font-headings);
+            font-size: 1.25em;
+            font-weight: 600;
+            color: var(--light-link-color); /* Колір заголовка картки - як посилання */
+            margin-bottom: 0.3em;
+            transition: color var(--transition-speed);
+        }
+
+        .nav-card-description {
+            font-size: 0.85em;
+            color: var(--light-text-secondary); /* Колір опису */
+            transition: color var(--transition-speed);
+        }
+
+        /* --- Стилі для темних тем для нового навігаційного меню --- */
+
+        body.theme-dark-base .focused-navigation {
+            background-color: var(--dark-nav-category-bg);
+            border-top-color: var(--dark-border-color);
+        }
+
+        body.theme-dark-base .focused-navigation h2 {
+            color: var(--dark-text-headings);
+            /* border-bottom-color: var(--dark-border-color); */
+        }
+
+        body.theme-dark-base .focused-nav-description {
+            color: var(--dark-text-secondary);
+        }
+
+        body.theme-dark-base .nav-card {
+            background-color: var(--dark-bg-container);
+            box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+            color: var(--dark-text-primary);
+        }
+
+        body.theme-dark-base .nav-card:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            background-color: var(--dark-link-hover-color); /* Використовуємо світлий колір посилання для фону */
+            color: var(--dark-bg-page); /* Дуже темний текст на світлому фоні */
+        }
+        body.theme-dark-base .nav-card:hover .nav-card-title,
+        body.theme-dark-base .nav-card:hover .nav-card-description {
+            color: var(--dark-bg-page); /* Текст на картці при наведенні */
+        }
+
+
+        body.theme-dark-base .nav-card-title {
+            color: var(--dark-link-color); /* Світлі посилання в темних темах */
+        }
+
+        body.theme-dark-base .nav-card-description {
+            color: var(--dark-text-secondary);
+        }
+
+        /* Специфічні кольори посилань/заголовків карток для кожної темної теми, якщо базові не підходять */
+
+        /* AI Studio Dark */
+        body.theme-aistudio-dark .nav-card-title {
+            color: #6bb7f7; /* Яскравий синій AI Studio */
+        }
+        body.theme-aistudio-dark .nav-card:hover {
+            background-color: #6bb7f7;
+            color: #1e1e1e;
+        }
+        body.theme-aistudio-dark .nav-card:hover .nav-card-title,
+        body.theme-aistudio-dark .nav-card:hover .nav-card-description {
+            color: #1e1e1e;
+        }
+
+
+        /* Nord Dark */
+        body.theme-nord-dark .nav-card-title {
+            color: #88C0D0; /* Frost Cyan */
+        }
+        body.theme-nord-dark .nav-card:hover {
+            background-color: #88C0D0;
+            color: #2E3440; /* nord0 */
+        }
+        body.theme-nord-dark .nav-card:hover .nav-card-title,
+        body.theme-nord-dark .nav-card:hover .nav-card-description {
+            color: #2E3440;
+        }
+
+        /* Dracula */
+        body.theme-dracula .nav-card-title {
+            color: #bd93f9; /* Purple */
+        }
+        body.theme-dracula .nav-card-description { /* У дракули коментарі світліші */
+            color: #b0b8d1;
+        }
+        body.theme-dracula .nav-card:hover {
+            background-color: #bd93f9; 
+            color: #282a36; /* Background */
+        }
+        body.theme-dracula .nav-card:hover .nav-card-title,
+        body.theme-dracula .nav-card:hover .nav-card-description {
+            color: #282a36; 
+        }
+
+
+        /* One Dark Pro */
+        body.theme-one-dark-pro .nav-card-title {
+            color: #61afef; /* Blue */
+        }
+        body.theme-one-dark-pro .nav-card:hover {
+            background-color: #61afef;
+            color: #282c34; /* Editor Background */
+        }
+        body.theme-one-dark-pro .nav-card:hover .nav-card-title,
+        body.theme-one-dark-pro .nav-card:hover .nav-card-description {
+            color: #282c34;
+        }
+
+
+        /* --- ТЕМИ --- */
+
+        /* Світла тема (за замовчуванням) */
+        body.theme-light {
+            background-color: var(--light-bg-page);
+            color: var(--light-text-primary);
+        }
+        body.theme-light .container {
+            background-color: var(--light-bg-container);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        /* Інші стилі світлої теми вже визначені через змінні */
+
+        /* Базові стилі для всіх темних тем */
+        body.theme-dark-base {
+            --dark-bg-page: #111827; 
+            --dark-bg-container: #1f2937; 
+            --dark-text-primary: #d1d5db; 
+            --dark-text-secondary: #9ca3af; 
+            --dark-text-headings: #f3f4f6; 
+            --dark-link-color: #a5b4fc; /* Світлий індиго/лавандовий для посилань */
+            --dark-link-hover-color: #c7d2fe; 
+            --dark-border-color: #374151; 
+            --dark-hr-color: #4b5563; 
+            --dark-code-bg: #374151; 
+            --dark-code-text: #e5e7eb; 
+            --dark-code-border: #4b5563;
+            --dark-pre-bg: #111827; 
+            --dark-disclaimer-bg: #1e3a5f; 
+            --dark-disclaimer-text: #93c5fd; 
+            --dark-disclaimer-border: #2563eb; 
+            --dark-toc-bg: #1a2433;
+            --dark-toc-border: #2d3a4e;
+            --dark-toc-heading-color: #93c5fd;
+            --dark-controls-bg: #1f2937;
+            --dark-controls-border: #374151;
+            --dark-select-bg: #374151;
+            --dark-select-text: #d1d5db;
+            --dark-select-border: #4b5563;
+            --dark-nav-button-bg: var(--dark-link-color);
+            --dark-nav-button-text: #111827;
+            --dark-nav-button-hover-bg: var(--dark-link-hover-color);
+            --dark-nav-category-bg: #1a2433;
+
+            color: var(--dark-text-primary);
+            background-color: var(--dark-bg-page);
+        }
+        body.theme-dark-base .container {
+            background-color: var(--dark-bg-container);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        body.theme-dark-base .top-bar {
+            background-color: var(--dark-controls-bg);
+            border-color: var(--dark-controls-border);
+        }
+        body.theme-dark-base .controls select {
+            background-color: var(--dark-select-bg);
+            color: var(--dark-select-text);
+            border-color: var(--dark-select-border);
+        }
+        body.theme-dark-base .quick-nav-link .nav-button {
+            background-color: var(--dark-nav-button-bg);
+            color: var(--dark-nav-button-text);
+        }
+        body.theme-dark-base .quick-nav-link .nav-button:hover {
+            background-color: var(--dark-nav-button-hover-bg);
+        }
+        body.theme-dark-base header {
+            background-color: var(--dark-bg-container);
+            border-color: var(--dark-border-color);
+        }
+        body.theme-dark-base header h1 { color: var(--dark-text-headings); }
+        body.theme-dark-base footer { 
+            background-color: var(--dark-bg-container);
+            border-color: var(--dark-border-color); 
+            color: var(--dark-text-secondary);
+        }
+        body.theme-dark-base footer a { color: var(--dark-link-color); }
+
+        body.theme-dark-base .disclaimer {
+            background-color: var(--dark-disclaimer-bg);
+            color: var(--dark-disclaimer-text);
+            border-color: var(--dark-disclaimer-border);
+        }
+        body.theme-dark-base .disclaimer a { color: var(--dark-link-color); text-decoration: none; }
+        body.theme-dark-base .disclaimer a:hover { text-decoration: underline; }
+
+
+        body.theme-dark-base #main-content h1, 
+        body.theme-dark-base #main-content h2, 
+        body.theme-dark-base #main-content h3 {
+            color: var(--dark-text-headings);
+            border-color: var(--dark-border-color);
+        }
+        body.theme-dark-base #main-content h4 { color: var(--dark-text-primary); }
+        body.theme-dark-base #main-content p { color: var(--dark-text-primary); }
+        body.theme-dark-base #main-content code {
+            background-color: var(--dark-code-bg);
+            color: var(--dark-code-text);
+            border-color: var(--dark-code-border);
+        }
+        body.theme-dark-base #main-content pre {
+            background-color: var(--dark-pre-bg);
+            color: var(--dark-text-primary);
+            border-color: var(--dark-border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        body.theme-dark-base #main-content a { color: var(--dark-link-color); text-decoration: none;}
+        body.theme-dark-base #main-content a:hover { color: var(--dark-link-hover-color); text-decoration: underline; }
+
+        body.theme-dark-base .table-of-contents {
+            background-color: var(--dark-toc-bg);
+            border-color: var(--dark-toc-border);
+        }
+        body.theme-dark-base .table-of-contents h3 {
+            color: var(--dark-toc-heading-color);
+            border-color: var(--dark-toc-border);
+        }
+        body.theme-dark-base .table-of-contents li a:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        body.theme-dark-base .full-navigation {
+            background-color: var(--dark-nav-category-bg);
+            border-top-color: var(--dark-border-color);
+        }
+        body.theme-dark-base .full-navigation h2 {
+            color: var(--dark-text-headings);
+            border-color: var(--dark-border-color);
+        }
+        body.theme-dark-base .nav-category {
+             background-color: var(--dark-bg-container);
+             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+        body.theme-dark-base .nav-category:hover {
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+        }
+        body.theme-dark-base .nav-category h3 {
+            color: var(--dark-text-headings);
+            border-color: var(--dark-border-color);
+        }
+        body.theme-dark-base .my-pages-note { 
+            color: var(--dark-text-secondary); 
+            background-color: rgba(255,255,255,0.03);
+        }
+        body.theme-dark-base .nav-category li a:hover {
+            color: var(--dark-link-hover-color); /* Змінено */
+            background-color: rgba(255,255,255,0.05);
+        }
+        body.theme-dark-base hr.nav-category-hr {
+             background-image: linear-gradient(to right, rgba(255,255,255,0), var(--dark-border-color), rgba(255,255,255,0));
+        }
+
+        /* Тема "AI Studio Dark" - оновлена */
+        body.theme-aistudio-dark {
+            --dark-bg-page: #1e1e1e; 
+            --dark-bg-container: #252526; 
+            --dark-text-primary: #d4d4d4; /* Яскравіший текст */
+            --dark-text-secondary: #a0a0a0;
+            --dark-text-headings: #eaeaea;
+            --dark-link-color: #6bb7f7; /* Трохи інший синій */
+            --dark-link-hover-color: #8cc8f8;
+            --dark-border-color: #3f3f3f;
+            --dark-hr-color: #4a4a4a;
+            --dark-code-bg: #2d2d2d;
+            --dark-code-text: #d4d4d4;
+            --dark-code-border: #3f3f3f;
+            --dark-pre-bg: #1e1e1e;
+            --dark-disclaimer-bg: #2c313a; 
+            --dark-disclaimer-text: #aeb9c7;
+            --dark-disclaimer-border: #4a5568;
+            --dark-nav-button-bg: #6bb7f7;
+            --dark-nav-button-text: #1e1e1e;
+            --dark-nav-category-bg: #2a2a2b;
+        }
+        body.theme-aistudio-dark .quick-nav-link .nav-button { 
+            box-shadow: 0 1px 3px rgba(77, 171, 247, 0.2);
+        }
+
+        /* --- Нові темні теми --- */
+
+        /* Nord Dark Theme */
+        body.theme-nord-dark {
+            --dark-bg-page: #2E3440; /* nord0 */
+            --dark-bg-container: #3B4252; /* nord1 */
+            --dark-text-primary: #D8DEE9; /* nord4 */
+            --dark-text-secondary: #A3B1CC; /* nord3 + трохи світліше */
+            --dark-text-headings: #ECEFF4; /* nord6 */
+            --dark-link-color: #88C0D0; /* nord8 - Frost Cyan */
+            --dark-link-hover-color: #8FBCBB; /* nord7 - Frost Greenish */
+            --dark-border-color: #434C5E; /* nord2 */
+            --dark-hr-color: #4C566A; /* nord3 */
+            --dark-code-bg: #434C5E; /* nord2 */
+            --dark-code-text: #D8DEE9; /* nord4 */
+            --dark-pre-bg: #2E3440; /* nord0 */
+            --dark-disclaimer-bg: #434C5E; /* nord2 */
+            --dark-disclaimer-text: #E5E9F0; /* nord5 */
+            --dark-disclaimer-border: #4C566A; /* nord3 */
+            --dark-nav-button-bg: #81A1C1; /* nord9 - Frost Blue */
+            --dark-nav-button-text: #2E3440; /* nord0 */
+            --dark-nav-category-bg: #353c4a; /* темніший nord1 */
+        }
+
+        /* Dracula Theme */
+        body.theme-dracula {
+            --dark-bg-page: #282a36; /* Background */
+            --dark-bg-container: #2f3240; /* Трохи світліший */
+            --dark-text-primary: #f8f8f2; /* Foreground */
+            --dark-text-secondary: #bdc2da; /* Comment + світліше */
+            --dark-text-headings: #f8f8f2; /* Foreground */
+            --dark-link-color: #bd93f9; /* Purple */
+            --dark-link-hover-color: #ff79c6; /* Pink */
+            --dark-border-color: #44475a; /* Current Line */
+            --dark-hr-color: #6272a4; /* Comment */
+            --dark-code-bg: #44475a; /* Current Line */
+            --dark-code-text: #f8f8f2; /* Foreground */
+            --dark-pre-bg: #282a36; /* Background */
+            --dark-disclaimer-bg: #44475a;
+            --dark-disclaimer-text: #f1fa8c; /* Yellow */
+            --dark-disclaimer-border: #6272a4;
+            --dark-nav-button-bg: #50fa7b; /* Green */
+            --dark-nav-button-text: #282a36; /* Background */
+            --dark-nav-category-bg: #2c2f3b;
+        }
+        body.theme-dracula #main-content code { /* Dracula specific code style */
+            color: #8be9fd; /* Cyan for code text */
+        }
+
+        /* One Dark Pro Theme (inspired by Atom One Dark / VSCode One Dark Pro) */
+        body.theme-one-dark-pro {
+            --dark-bg-page: #282c34; /* Editor Background */
+            --dark-bg-container: #21252b; /* Darker variant for container */
+            --dark-text-primary: #abb2bf; /* Default Text */
+            --dark-text-secondary: #5c6370; /* Gutter / Comments */
+            --dark-text-headings: #e6e6e6; /* Lighter Text */
+            --dark-link-color: #61afef; /* Blue */
+            --dark-link-hover-color: #98c379; /* Brighter Blue */
+            --dark-border-color: #3f444f;
+            --dark-hr-color: #4b5263;
+            --dark-code-bg: #2c313a; /* Slightly different code bg */
+            --dark-code-text: #abb2bf; /* Default text */
+            --dark-pre-bg: #282c34;
+            --dark-disclaimer-bg: #2c313a;
+            --dark-disclaimer-text: #e5c07b; /* Yellow/Gold */
+            --dark-disclaimer-border: #3f444f;
+            --dark-nav-button-bg: #c4c4c4; /* Purple */
+            --dark-nav-button-text: #282c34;
+            --dark-nav-category-bg: #262a31;
+        }
+        body.theme-one-dark-pro #main-content code {
+            color: #98c379; /* Green for code text */
+        }
+    </style>
+</head>
+<body class="theme-light theme-dark-base"> 
+<div class="page-wrapper">
+    <div class="top-bar">
+        <div class="controls">
+            <label for="language-switcher">Мова:</label>
+            <select id="language-switcher" onchange="switchLanguage(this.value)">
+                <option value="uk" selected>Українська</option>
+                <option value="ru">Русский (index_ru.html)</option>
+            </select>
+
+            <label for="theme-switcher">Тема:</label>
+            <select id="theme-switcher">
+                <option value="theme-light">Світла</option>
+                <option value="theme-aistudio-dark">AI Studio Dark</option>
+                <option value="theme-nord-dark">Nord Dark</option>
+                <option value="theme-dracula">Dracula</option>
+                <option value="theme-one-dark-pro">One Dark Pro</option>
+            </select>
+        </div>
+        <div class="quick-nav-link">
+            <a href="#header-text" class="nav-button">Вгору &#x2191;</a>
+            <a href="#focused-navigation-menu" class="nav-button">Меню розділів &#x2193;</a>
+        </div>
+    </div>
+
+    <header id="header-text">
+        <h1>Моддінг Hearts of Iron IV (Розширений Переклад)</h1>
+    </header>
+
+    <div class="container">
+        <div class="disclaimer">
+            <p><strong>Увага!</strong> Це переклад оригінальної сторінки <a href="https://hoi4.paradoxwikis.com/Modding" target="_blank" rel="noopener noreferrer">Modding - Hearts of Iron 4 Wiki</a>.</p>
+            <p>Я не є автором оригінального контенту. Переклад виконано за допомогою інструментів штучного інтелекту та може містити неточності. Оригінал знаходиться за вказаним посиланням.</p>
+        </div>
+
+        <div id="main-content">
+            <p><em>Це вікі, що підтримується спільнотою. Якщо ви помітили помилку, будь ласка, допоможіть її виправити.</em></p>
+
+            <h2 id="modding-intro">Моддінг</h2>
+            <p>Моддінг, або створення модів, — це процес модифікації поведінки базової гри (часто званої "ванільною версією"), або для особистого користування, або для публічного випуску для інших гравців, наприклад, через Майстерню Steam.</p>
+            <p>Як і всі ігри Paradox, Hearts of Iron IV значною мірою піддається моддінгу. Мотивації моддерів можуть сильно відрізнятися: кращий переклад на рідну мову, більше подій чи рішень, кращі карти, капітальний ремонт гри тощо.</p>
+            <p>Моди зберігаються в папці <code>mod/</code> у каталозі користувача. Разом з модами гра завантажуватиме будь-які файли, що зберігаються в каталозі користувача. Внутрішній редактор карт гри, Nudger, зберігає свої результати в цій папці. Шлях до папки, що містить файли мода, не може містити жодних символів, що не належать до ASCII, таких як літери з діакритичними знаками або нелатинський шрифт.</p>
+            <p>Гра читатиме будь-який файл <code>.mod</code> у папці <code>mod/</code>, а локальний мод можна створити через лаунчер: "Усі встановлені моди" -> "Завантажити мод" -> "Створити мод". Це обмежує параметри шляху та дозволеної структури мода, тому може знадобитися ручне редагування результату.</p>
+            <p>Моди не можуть збігатися за назвою; у такому випадку лише перший завантажений мод (визначений за назвою файлу дескриптора користувача) матиме будь-який ефект у грі.</p>
+
+            <div class="table-of-contents">
+                <h3>Зміст</h3>
+                <ul>
+                    <li><a href="#official-video-guides">1. Офіційні відеоуроки</a></li>
+                    <li><a href="#guidelines">2. Рекомендації</a></li>
+                    <li><a href="#text-editor">3. Текстовий редактор</a>
+                        <ul>
+                            <li><a href="#searching-multiple-files">3.1. Пошук у кількох файлах</a></li>
+                            <li><a href="#indenting">3.2. Відступи</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#universal-modding-concepts">4. Універсальні концепції моддінгу</a>
+                        <ul>
+                            <li><a href="#user-directory">4.1. Каталог користувача</a></li>
+                            <li><a href="#loading-files">4.2. Завантаження файлів</a></li>
+                            <li><a href="#folder-structure">4.3. Структура папок</a></li>
+                            <li><a href="#code-structure">4.4. Структура коду</a></li>
+                            <li><a href="#debug-mode">4.5. Режим налагодження</a>
+                                <ul>
+                                    <li><a href="#logs">4.5.1. Логи</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#localisation-concept">4.6. Локалізація</a></li>
+                            <li><a href="#gfx-concept">4.7. GFX</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#mod-structure">5. Структура мода</a>
+                        <ul>
+                            <li><a href="#descriptor-contents">5.1. Зміст дескриптора</a>
+                                <ul>
+                                    <li><a href="#replace-path">5.1.1. replace_path</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#game-data">6. Ігрові дані</a></li>
+                    <li><a href="#tools-utilities">7. Інструменти та утиліти</a></li>
+                    <li><a href="#common-mistakes">8. Поширені помилки</a></li>
+                    <li><a href="#useful-knowledge">9. Корисні знання</a></li>
+                    <li><a href="#see-also">10. Див. також</a></li>
+                    <li><a href="#notes">11. Примітки</a></li>
+                </ul>
+            </div>
+            
+            <h2 id="official-video-guides">1. Офіційні відеоуроки</h2>
+            <p>Офіційні посібники з моддінгу від Paradox на Youtube.</p>
+            <ul>
+                <li><a href="https://www.youtube.com/watch?v=h_V_gLPAifE" target="_blank" rel="noopener noreferrer">Beginner's Modding Guide</a> (Посібник з моддінгу для початківців)</li>
+                <li><a href="https://www.youtube.com/watch?v=L0CB3h2N_tY" target="_blank" rel="noopener noreferrer">Intermediate Modding Guide</a> (Посібник з моддінгу для середнього рівня)</li>
+            </ul>
+
+            <hr> 
+
+            <h2 id="guidelines">2. Рекомендації</h2>
+            <ul>
+                <li><strong>Ніколи не змінюйте файли гри:</strong> використовуйте мод навіть для невеликих змін і ніколи не змінюйте безпосередньо файли гри в папці Steam Hearts of Iron 4, оскільки ваші зміни можуть бути скасовані без попередження.</li>
+                <li><strong>Мінімізуйте перезапис ванільних файлів</strong>, додаючи окремі файли та завантажуючи з папок, коли це можливо, для покращення сумісності та обслуговування модів. (Ваші файли можуть мати будь-яку назву, всі файли в папці будуть завантажені грою. Тому оберіть назву, яку ніхто інший не використовуватиме, наприклад, назву вашого мода. Приклад: <code>coolmod_countries</code>)</li>
+                <li><strong>Використовуйте належний інструмент для злиття</strong> (наприклад, WinMerge), щоб зливати вміст папок та оновлювати змінені ванільні файли до нової версії гри.</li>
+                <li><strong>Робіть резервні копії своєї роботи</strong>, щоб не втратити все. Розгляньте можливість використання системи контролю версій, такої як Git, та платформи для спільної розробки, наприклад GitHub або Gitlab, для управління командною співпрацею або просто робіть копії файлів в іншому місці. Збереження версій через Github або Gitlab також може бути дуже корисним для налагодження, оскільки обмежує вибір потенційно пошкоджених файлів.</li>
+                <li><a href="https://hoi4.paradoxwikis.com/Modding_Git_Guide" target="_blank" rel="noopener noreferrer">The Modding Git Guide</a> — це посібник, створений спільнотою, для використання Git, GitHub/GitLab та пов'язаних інструментів, таких як KDiff3. Він може бути корисним джерелом відповідей на питання, що виходять за рамки цієї вікі, і містить покрокові інструкції для багатьох речей, про які тут йдеться.</li>
+                <li><strong>Використовуйте кодування UTF-8 без позначки порядку байтів (BOM)</strong> для текстових файлів. Це зазвичай називається "UTF-8", але іноді може бути вказано як "UTF-8 without BOM".</li>
+                <li><strong>Використовуйте кодування UTF-8 з позначкою порядку байтів (BOM)</strong> для файлів локалізації (<code>.yml</code>). Це зазвичай називається "UTF-8-BOM", але може бути просто "UTF-8", у такому випадку пропуск позначки порядку байтів є окремою опцією. Деякі текстові редактори, такі як Atom, повністю не підтримують позначку порядку байтів і їх слід уникати для локалізації.</li>
+                <li><strong>Використовуйте коментарі, що починаються з символу <code>#</code></strong>, щоб пам'ятати причини написання складних речей. Один символ решітки зробить решту рядка повністю проігнорованою. У коді немає нотації для багаторядкових коментарів.</li>
+                <li><strong>Ефективно налагоджуйте</strong>, увімкнувши режим налагодження. Зробіть це, додавши <code>-debug</code> до параметрів запуску в Steam. Параметри запуску доступні в меню, яке відкривається клацанням правою кнопкою миші по грі та вибором "Властивості...".</li>
+                <li>Альтернативно, у Windows можна створити ярлик до файлу <code>hoi4.exe</code> або <code>dowser.exe</code>, а потім відкрити властивості ярлика та додати <code>-debug</code> (через пробіл) після кінця шляху, наприклад: <code>"C:\Program Files (x86)\Steam\steamapps\common\Hearts of Iron IV\hoi4.exe" -debug</code>.</li>
+            </ul>
+
+            <hr>
+            <h2 id="text-editor">3. Текстовий редактор</h2>
+            <p>Це найпоширеніші текстові редактори для моддінгу гри:</p>
+            <ul>
+                <li><strong>Visual Studio Code.</strong>
+                    <ul>
+                        <li>Має розширення CWTools, створене фанатами, з підсвічуванням синтаксису Paradox, валідацією та підказками для тригерів та ефектів. Щоб встановити його, перейдіть до Extensions на лівій панелі VS та знайдіть CWTools. (Примітка: правила валідації неповні та показуватимуть багато помилкових помилок у файлах gui та локалізації).</li>
+                        <li>Останні версії з автоматичним підсвічуванням пар <code>{}</code> різними кольорами та позначенням відкриваючих/закриваючих дужок, у яких відсутня пара, червоним кольором, варті золота.</li>
+                    </ul>
+                </li>
+                <li><strong>Notepad++.</strong> Оберіть Perl як мову, оскільки це забезпечить гарне підсвічування та дозволить згортати блоки коду та коментарів. Щоб встановити це за замовчуванням, перейдіть до Settings, Style Configurator, знайдіть Perl у списку зліва та додайте "gui txt" (без лапок) до поля "User ext." унизу.
+                    <ul>
+                        <li>Деякі опції, які зазвичай увімкнені за замовчуванням в інших текстових редакторах, вимкнені в Notepad++, але їх можна змінити на верхній панелі. Це включає Word wrap, Document map, Indent guide та Folder as workspace.</li>
+                    </ul>
+                </li>
+                <li><strong>Sublime Text.</strong> Існує розширення для нього, випущене розробниками Imperator, яке можна було б використовувати з HOI4, але використовуйте на свій страх і ризик: <a href="https://github.com/tbam V?G" target="_blank" rel="noopener noreferrer">Sublime Tools</a>. Воно додає кольорове підсвічування для ефектів та тригерів. Якщо ви хочете перемикати коментарі в Sublime, вам також потрібно додати <a href="https://forum.paradoxplaza.com/forum/threads/sublime-text-tools.1390907/post-26589608" target="_blank" rel="noopener noreferrer">цей файл</a> до тієї ж папки "User".</li>
+            </ul>
+            <p>Причини використання не стандартного текстового редактора включають наступне:</p>
+            <ul>
+                <li><strong>Підсвічування дужок та синтаксису.</strong> Підсвічування дужок полегшує виявлення будь-яких відсутніх або непотрібних файлів, дозволяючи вибрати дужку та побачити, де вона відкривається або закривається, щоб знати, що знаходиться всередині цього блоку. Підсвічування синтаксису може зробити код легшим для читання, підсвічуючи важливіші частини, а також виключаючи дужки всередині коментарів з розгляду.</li>
+                <li><strong>Пошук у кількох файлах в одній папці.</strong> У кожному наданому інструменті це активується гарячою клавішею <code>Ctrl + Shift + F</code> і може мати фільтри імен файлів для обмеження файлів, які шукаються (наприклад, <code>*.txt</code> шукатиме лише текстові файли, ігноруючи будь-які інші файли, такі як <code>*.dds</code>).</li>
+                <li><strong>Кожен рядок нумерується збоку.</strong> Оскільки лог помилок зазвичай вказує на рядок, де присутня помилка, це значно прискорює пошук відповідного рядка порівняно з тим, як Microsoft Notepad лише повідомляє номер поточного вибраного рядка внизу.</li>
+                <li><strong>Більші можливості для роботи з кількома файлами.</strong> Кожен з цих редакторів може мати лише один екземпляр, відкритий одночасно з кількома відкритими файлами (перемикання між ними за допомогою <code>Ctrl + Tab</code>), на відміну від Microsoft Notepad, який відкриває окремий екземпляр для кожного відкритого файлу, що може швидко заповнити меню <code>Alt + Tab</code>. Однак все ще можна відкривати кілька екземплярів текстового редактора. Інструмент порівняння тексту також існує в кожному з них: плагін "ComparePlus" у Notepad++, пакет "Compare Side-By-Side" або "Diffy" у Sublime Text, або різноманітні розширення Visual Studio Code ("Partial Diff" є найпопулярнішим).</li>
+                <li><strong>Більші можливості налаштування:</strong> кожен з цих текстових редакторів дозволяє широкий вибір світлих або нічних тем, які можна вибрати за бажанням, також існують теми для завантаження. Оскільки під час моддінгу доведеться багато дивитися на текстовий редактор, вибір теми, яка добре виглядає для очей, може значно покращити досвід.</li>
+            </ul>
+
+            <h3 id="searching-multiple-files">3.1. Пошук у кількох файлах</h3>
+            <p>Однією з особливостей не стандартних текстових редакторів є можливість гнучкого пошуку по всіх файлах у межах однієї папки. Це надзвичайно корисно для усунення помилок та знаходження розташування певних елементів.
+            Windows File Explorer є поганим вибором для цього, оскільки він шукає лише всередині файлів <code>.txt</code>, тоді як може бути бажано шукати файли інших розширень, наприклад, <code>.yml</code>, <code>.gfx</code>, <code>.gui</code> або <code>.asset</code>, і він помітно повільніший, ніж будь-який текстовий редактор: пошук, що займає ~10 секунд у текстовому редакторі, може тривати до 15 хвилин у Windows File Explorer.</p>
+            <p>Ось як саме ця функція вмикається у поширених текстових редакторах:</p>
+            <ul>
+                <li><strong>Notepad++</strong> – Ця функція знаходиться в меню "Search" на верхній панелі як "Find in Files...". За замовчуванням папка не вказана. "Follow current doc." дозволяє текстовому редактору автоматично вводити папку поточного відкритого документа як місце для пошуку, або її можна ввести вручну. Альтернативно, це меню можна відкрити з контекстного меню папки в меню "Folder as Workspace" – доступ до якого здійснюється кнопкою на верхній панелі – що автоматично встановить розташування папки на цю папку. Гаряча клавіша <code>Ctrl+Shift+F</code> також відкриває меню для цієї функції за замовчуванням.</li>
+                <li><strong>Sublime Text</strong> – Ця функція знаходиться в меню "Find" на верхній панелі як "Find in Files...". Щоб додати папку для пошуку, можна відкрити меню праворуч від рядка "Where:", де кнопки "Add Folder" (для вибору окремої папки) або "Add Open Folders" (для автоматичного вибору всіх папок, відкритих через Sublime Text) служать для цього. Гаряча клавіша <code>Ctrl+Shift+F</code> також відкриває меню для цієї функції за замовчуванням.</li>
+                <li><strong>Visual Studio Code</strong> – Visual Studio Code за замовчуванням шукає лише в поточній відкритій папці. Папка відкривається або через кнопку "Open Folder..." у меню "File" на верхній панелі, або в меню "Explorer", доступ до якого здійснюється через панель зліва. Після цього функціонал можна знайти в меню "Edit" як "Find in Files". Щоб шукати в інших папках, відкрийте меню 'search details', представлене трьома крапками, і введіть повний шлях до папки в область 'Files to include'. Щоб прискорити пошук, можна використовувати фільтри імен файлів. Наприклад, <code>localisation/english/*.yml</code> у "files to include" шукатиме лише кожен файл <code>*.yml</code> у папці <code>&lt;поточна відкрита папка&gt;/localisation/english/</code>, де <code>*</code> означає будь-яку кількість (включаючи 0) будь-яких символів у назві файлу. Подібні фільтри можна використовувати в попередніх двох текстових редакторах, однак без можливості фільтрувати папки — лише імена файлів. Гаряча клавіша <code>Ctrl+Shift+F</code> також відкриває меню для цієї функції за замовчуванням.</li>
+            </ul>
+            <p>Фільтр за розширенням файлу можна встановити для прискорення пошуку. Це залежить від текстового редактора. Зауважте, що <code>*</code> використовується для позначення будь-якої кількості будь-яких символів, і це універсально.</p>
+            <ul>
+                <li>У <strong>Notepad++</strong> це робиться за допомогою меню 'filter'. Фільтри розділяються пробілами, а знак оклику на початку позначає його як фільтр виключення. Наприклад, <code>*.yml !*french.yml</code> призведе до пошуку всіх файлів локалізації, крім французьких.</li>
+                <li>У <strong>Sublime Text</strong> це знаходиться в меню 'where'. Фільтри розділяються комами, а знак мінус на початку позначає його як фільтр виключення. Наприклад, <code>C:\Program Files (x86)\Steam\steamapps\common\Hearts of Iron IV\, *.txt, -GER*</code> шукатиме кожен текстовий файл у базовій грі (припускаючи стандартне розташування у Windows на Steam), за винятком тих, що починаються з GER.</li>
+                <li>У <strong>Visual Studio Code</strong> це знаходиться в меню, що викликається кнопкою 'Toggle Search Details', представленою трьома крапками. Це меню має окремі меню "Files to include" та "Files to exclude", які використовуються відповідно. Крім того, це дозволяє представляти назви папок у меню, причому подвійний <code>*</code> (як у <code>**</code>) використовується для представлення довільної назви папки. Наприклад, <code>*.gfx</code> у "Files to include" та <code>dlc/**</code> у "Files to exclude" шукатиме кожен файл з розширенням .gfx, за винятком тих, що знаходяться в папці dlc.</li>
+            </ul>
+            <p>Існують такі способи використання цієї функції:</p>
+            <ul>
+                <li>Знаходження внутрішнього ID шляхом пошуку в папці локалізації за локалізованою назвою. Наприклад, пошук заголовка події може бути використаний для визначення ID.</li>
+                <li>Знаходження місця визначення запису бази даних певного типу, коли це не є інтуїтивно зрозумілим. Наприклад, пошук ID обладнання в папці, що зберігає обладнання (або навіть <code>/Hearts of Iron IV/common/</code> загалом), може бути використаний для знаходження точного файлу, що не є очевидним для деяких типів обладнання.</li>
+                <li>Підмножина цього включає знаходження розташування спрайтів або елементів інтерфейсу: консольна команда <code>gui</code> (або її еквівалент у головному меню в режимі налагодження) може бути використана для знаходження назви певного SpriteType (з префіксом GFX_) або елемента інтерфейсу. Пошуковий запит із заданою назвою в папці <code>/Hearts of Iron IV/interface/</code> надасть файл, де визначено спрайт (таким чином, також надаючи texturefile, що вказує шлях до зображення в gfx) або папку інтерфейсу (що дозволяє скопіювати його до моду та редагувати).</li>
+                <li>Розв'язання неінтуїтивних помилок, де місцезнаходження не вказано, наприклад, Invalid Decision Category, де це може бути використано для визначення, який файл викликає помилку.</li>
+                <li>З'ясування, що може спричинити певну подію, наприклад, що запускає певну подію або що встановлює певний косметичний тег.</li>
+                <li>Виконання масових замін у кількох файлах одночасно, зазвичай використовується разом з регулярними виразами. Це може бути використано для автоматизації монотонних завдань, таких як додавання логу до кожної події, або найпростіше для зміни власника в кількох штатах (наприклад, коментуючи попереднього власника та вставляючи іншого, замінюючи <code>owner=</code> на <code>owner=XYZ#</code>).</li>
+            </ul>
+
+            <h3 id="indenting">3.2. Відступи</h3>
+            <p>Ще однією причиною використання не стандартних текстових редакторів є кращі можливості для роботи з відступами. Відступи — це використання нових рядків та пробілів на початку рядка, що не впливає на інтерпретацію коду, але полегшує візуальне сприйняття зв'язків між різними частинами коду.
+            Зазвичай як один рівень відступу використовується або символ табуляції (представлений як <code>\t</code>), або 4 пробіли, розміщені від початку рядка до початку коду в рядку. Щоб збільшити рівень відступу коду, у текстових редакторах використовується клавіша <code>Tab</code>, що можна зробити для кількох рядків одночасно, виділивши їх. І навпаки, <code>Shift+Tab</code> використовується для зменшення рівня відступу рядка на один.</p>
+            <p>Додатковою опцією, присутньою в цих редакторах, є 'Indent guide' (напрямна відступів), що малює лінію на кожному рівні відступу, щоб полегшити бачення меж кожного рівня відступу, що може допомогти в читанні коду. Хоча ця опція увімкнена за замовчуванням у Sublime Text та Visual Studio Code, її потрібно вмикати вручну в Notepad++ на верхній панелі.</p>
+            <p>Ось типові угоди, що використовуються для відступів:</p>
+            <ul>
+                <li>Перший рядок файлу має нульовий відступ.</li>
+                <li>Відкриваюча дужка та відповідна їй закриваюча дужка повинні розміщуватися в рядках з однаковим рівнем відступу.</li>
+                <li>Якщо рядок вводить незакриту відкриваючу дужку, то все до відповідної закриваючої дужки повинно бути на один рівень відступу правіше порівняно з рядком з відкриваючою дужкою.</li>
+                <li>Рядок не повинен містити більше однієї дужки кожного типу.</li>
+                <li>Якщо рядок містить закриваючу дужку, не містячи відкриваючої дужки, то він не повинен містити нічого, крім закриваючої дужки та відступу перед нею.</li>
+            </ul>
+            <p>Ось приклад правильного відступу:</p>
+            <pre><code>TAG = {
+    if = {
+    |    limit = {      // Символ "|" використовується для візуалізації напрямної відступів, а не в коді.
+    |    |    has_stability > 0.5
+    |    |    has_war_support > 0.5
+    |    }
+    |    country_event = { id = my_event.1 hours = 1 }
+    }
+}</code></pre>
+            <p>Правильні відступи мають дві основні переваги:</p>
+            <ul>
+                <li>Легко побачити, де міститься аргумент, перемістившись на один рівень відступу вліво, а потім слідуючи лінії напрямної відступів, доки вона не досягне коду.</li>
+                <li>Легко знайти, що знаходиться всередині блоку, слідуючи лінії напрямної відступів від рядка з відкритою дужкою до точки, де вона досягає закриваючої дужки.</li>
+            </ul>
+            <p>Деякі поширені помилки, які слід перевіряти у відступах:</p>
+            <ul>
+                <li>Непотрібне зменшення рівня відступу. Це зазвичай можна виявити, помітивши будь-які переривання в лінії, згенерованій напрямною відступів, від рядка з відкриваючою дужкою до закриваючої дужки:
+<pre><code>ideas = {
+    country = {
+    |   my_idea_1 = {
+    |   |   modifier = {
+    |   |   |   political_power_gain = 0.1
+    |   |   } // закриває modifier = { ... }
+    |   my_idea_2 = { // Перериває лінію від my_idea_1 до закриваючої дужки, тому є помилковим
+    |   }             // Не працює через розташування всередині my_idea_1
+    }
+}
+characters = {
+    my_character = {
+    |   name = character_name
+    |
+    portraits = {  // Помилково
+    |   civilian = {
+    |   |   large = GFX_my_sprite
+    |   }
+    } // закриває portraits = { ... }
+    my_character_2 = { // Не працює через розташування всередині іншого персонажа
+    |   &lt;...&gt;
+    }
+}</code></pre></li>
+                <li>Розміщення закриваючої дужки на тому ж рівні, що й попередній скрипт:
+<pre><code>if = {
+    limit = {
+        my_scripted_trigger = yes
+    }
+    } // Закриває оператор if, і тому мав бути на один рівень лівіше, щоб відповідати рівню відступу оператора if.
+    my_scripted_effect = yes // Завжди виконується, оскільки знаходиться поза оператором if.
+}
+country_event = {
+    id = my_event.1
+    option = {
+        name = my_event.1.a
+        } // Закриває option = { ... }
+    }     // Закриває country_event = { ... }
+    option = { // Не працює, оскільки визначено поза подією.
+        &lt;...&gt;
+    } // Ця фігурна дужка зайва або не на місці
+</code></pre></li>
+                <li>Недодавання рівня відступу після незакритої відкриваючої дужки:
+<pre><code>my_technology_1 = {
+enable_building = { // Має бути відступ
+    building = industrial_complex
+    level = 20
+} // Закриває enable_building
+my_technology_2 = { // Всередині my_technology_1 = { ... }, не працює.
+    ...
+} // Закриває my_technology_1
+</code></pre></li>
+                <li>Розміщення сусідніх рядків з різницею щонайменше у 2 рівні відступів:
+<pre><code>focus = {
+    &lt;...&gt;
+    completion_reward = {
+        TAG = { // Має бути відступ
+            country_event = my_event.1
+    } // Закриває TAG = { ... }
+}     // Закриває completion_reward = { ... }
+// Тут мала б бути закриваюча дужка для focus
+focus = { // Не працює через те, що міститься всередині іншого focus = { ... }
+    &lt;...&gt;
+} // Закриває другий focus
+</code></pre></li>
+            </ul>
+            <p>Дотримання правил відступів та перевірка на ці помилки відступів забезпечать відсутність помилок, пов'язаних з дужками, у коді.</p>
+
+            <hr>
+            <h2 id="universal-modding-concepts">4. Універсальні концепції моддінгу</h2>
+            <p>Настійно рекомендується вимкнути приховування розширень файлів у Провіднику Windows, якщо ви використовуєте Windows. Розширення файлів вважаються частиною імені файлу, і їх приховування може призвести до того, що файли не працюватимуть через неправильні імена файлів (наприклад, випадкове збереження файлів локалізації як файлів .txt, збереження зображення в неправильному форматі та нерозуміння цього тощо).</p>
+
+            <h3 id="user-directory">4.1. Каталог користувача</h3>
+            <p>Каталог користувача використовується для зберігання інформації, пов'язаної з Hearts of Iron IV, яка не вбудована в гру, а створена користувачем. Розташування визначається <code>gameDataPath</code> у файлі <code>/Hearts of Iron IV/launcher-settings.json</code> базової гри. За замовчуванням каталог користувача для Hearts of Iron IV знаходиться в таких папках:</p>
+            <ul>
+                <li>Windows: <code>C:\Users\&lt;Username&gt;\Documents\Paradox Interactive\Hearts of Iron IV\</code> або <code>C:\Users\&lt;Username&gt;\OneDrive\&lt;Documents (мовою системи)&gt;\Paradox Interactive\Hearts of Iron IV\</code></li>
+                <li>Mac OS: <code>~/Documents/Paradox Interactive/Hearts of Iron IV/</code></li>
+                <li>Linux: <code>~/.local/share/Paradox Interactive/Hearts of Iron IV/</code></li>
+            </ul>
+            <p>Зокрема, примітним вмістом каталогу користувача є:</p>
+            <ul>
+                <li>Дескриптори модів, специфічні для користувача, знаходяться в папці <code>/Hearts of Iron IV/mod/</code>. Це використовується для призначення інформації про мод, такої як шлях до папки, що містить мод. Ця ж папка містить стандартне розташування локальних модів після їх створення в лаунчері, хоча для цього може використовуватися будь-яка папка.</li>
+                <li>Результати роботи Nudger зберігаються в цій папці. Зокрема, <code>/Hearts of Iron IV/map/</code>, <code>/Hearts of Iron IV/history/states/</code> та <code>/Hearts of Iron IV/localisation/</code> можуть бути створені користувачем як результати роботи Nudger. Звідси вони завантажуватимуться в гру при її відкритті, маючи пріоритет над файлами базової гри.</li>
+                <li>Логи гри створюються в <code>/Hearts of Iron IV/logs/</code>. Звідти їх можна використовувати для усунення несправностей або отримання корисної інформації. Див. також <a href="#logs">§ Логи</a>.</li>
+                <li>Файли збережень зберігаються в <code>/Hearts of Iron IV/save games/</code>.</li>
+                <li>Знімки екрана гри зберігаються в <code>/Hearts of Iron IV/screenshots/</code>. Це включає як звичайні знімки екрана F11, так і карту, згенеровану за допомогою F10, яка є піксельно точним представленням всієї карти світу, що бере межі провінцій з <code>/Hearts of Iron IV/map/provinces.bmp</code>.</li>
+                <li><code>/Hearts of Iron IV/settings.txt</code> модифікується меню налаштувань гри та включає деякі налаштування, які неможливо змінити там. Зокрема, <code>save_as_binary=no</code> неможливо змінити ніде інде, як і зміну стандартного текстового редактора, що використовується грою.</li>
+            </ul>
+            <p>Якщо в шляху до каталогу користувача є символи, що не належать до ASCII, він може не працювати належним чином. Зокрема, гра не зможе відкрити <code>error.log</code> (але все одно змінить його) або моди, що зберігаються там. Щоб обійти це, можна або перемістити лише моди в іншу папку, змінивши шлях у дескрипторі, специфічному для користувача, або перемістити весь каталог користувача, відредагувавши <code>/Hearts of Iron IV/launcher-settings.json</code> та перемістивши файли відповідно.</p>
+
+            <h3 id="loading-files">4.2. Завантаження файлів</h3>
+            <p>Після створення папки мода в лаунчері, кожен файл у ній завантажуватиметься в тому ж місці, що й у базовій грі. На прикладі мода з назвою "yourmod", кожен файл у <code>mod/yourmod/common/national_focus</code> завантажуватиметься разом з файлами базової гри в <code>/Hearts of Iron IV/common/national_focus</code>, припускаючи стандартний шлях. Однак, вставка ще однієї папки, як у <code>mod/yourmod/test/common/national_focus</code>, призведе до того, що файли в цій папці не завантажуватимуться як файли національних фокусів, ігноруючись.</p>
+            <p>Коренева папка мода, яка вважається такою ж, як папка <code>/Hearts of Iron IV/</code> у базовій грі, буде визначена у файлі <code>/Hearts of Iron IV/mod/yourmod.mod</code> каталогу користувача, який відкривається текстовим редактором. Це встановлюється через <code>path = ""</code> у цьому файлі, за замовчуванням це <code>/Hearts of Iron IV/mod/yourmod</code> каталогу користувача.</p>
+            <p>Базова гра завантажується першою, тоді як моди завантажуються пізніше. Порядок завантаження файлів в основному використовується для визначення двох речей:</p>
+            <ul>
+                <li>У випадку файлів з однаковою назвою в одному місці, порядок завантаження вирішує, який з них буде використаний. Наприклад, якщо мод та базова гра редагують <code>../events/Generic.txt</code>, гра прочитає версію мода. Це стосується лише окремих файлів, а не цілих папок. Ніколи неможливо, щоб кілька файлів з однаковою назвою в одному місці були завантажені: гра вибере лише пізніше завантажений файл і проігнорує старіші.</li>
+                <li>У випадку використання <code>replace_path</code> у дескрипторі мода, порядок завантаження вирішує, які файли будуть вивантажені з вказаної папки.</li>
+            </ul>
+            <p>Крім <code>replace_path</code>, немає способу повністю вивантажити файл, хоча його можна перезаписати, якщо є файл з такою ж назвою.<sup>[a]</sup> Наприклад, якщо єдиним файлом у моді є <code>../common/national_focus/generic.txt</code>, то він перезапише лише загальне дерево національних фокусів базової гри, але інші дерева національних фокусів залишаться такими ж, як у базовій грі. Якщо інший мод редагує лише інше дерево фокусів (наприклад, новий <code>malta.txt</code>), то гра прочитає зміни до загального дерева національних фокусів, прочитає <code>malta.txt</code>, а решта залишиться як у базовій грі.</p>
+            <p>Порядок завантаження в грі такий:</p>
+            <ol>
+                <li>Базова гра. Через те, що вона найраніша в порядку завантаження, вона має найнижчий пріоритет у випадку збігу.</li>
+                <li>DLC, у порядку їх внутрішнього ID (відповідає даті випуску). Наприклад, якщо базова гра, DLC018 та DLC20 містять <code>../interface/frontendmainviewbg.gfx</code>, гра прочитає лише версію з DLC020 та проігнорує решту. Через обмеження контрольної суми, папки DLC зазвичай містять лише графіку та аудіо, пов'язані з DLC, тоді як код завжди зберігається в самій базовій грі, заблокований перевіркою <code>has_dlc</code>.</li>
+                <li>Каталог користувача. Хоча зазвичай він обмежений результатами роботи Nudger, будь-яка інша папка також тут працює.</li>
+                <li>Моди, впорядковані за іменами файлів дескрипторів, специфічних для користувача. Наприклад, якщо моди з дескрипторами <code>mod/abc_mod.mod</code> та <code>mod/xyz_mod.mod</code> обидва перезаписують <code>../events/my_events.txt</code>, буде прочитана лише версія з мода з дескриптором <code>mod/xyz_mod.mod</code>.</li>
+            </ol>
+            <p>Це можна перезаписати за допомогою <code>dependencies = { ... }</code> у вмісті дескриптора. <code>replace_path</code> не змінює порядок, але використовується для повного вивантаження всього раніше завантаженого з певної папки.</p>
+            <p>Через те, що DLC є власним джерелом завантажуваних файлів, папка <code>modname/dlc/</code> та її підпапки не матимуть ефекту. Натомість файл повинен відповідати фактичному місцю завантаження: наприклад, щоб відредагувати <code>../dlc/dlc023_man_the_guns/music/mtg_music.txt</code>, мод повинен містити <code>modname/music/mtg_music.txt</code>.</p>
+            <p>Під час процесу завантаження файли залишаються чистим текстом і не інтерпретуються негайно. Винятками є файли, необхідні для роботи екрана завантаження, та локалізація. Після цього відбувається процес інтерпретації/оцінки, який читає текстові файли та створює вміст (наприклад, національні фокуси, країни або штати) відповідно. Імена файлів не мають значення для того, як файл інтерпретується, за невеликими винятками.<sup>[b]</sup> Для переважної більшості файлів вони або читаються лише через те, що знаходяться в певній папці (наприклад, національні фокуси), або за прямим посиланням в іншому файлі (наприклад, <code>oob = "TAG_1936"</code> у файлі історії країни завантажує файл <code>/Hearts of Iron IV/history/units/TAG_1936.txt</code> для розташування підрозділів). Це дозволяє у багатьох випадках уникати перезапису файлів базової гри, що полегшує сумісність вмісту мода з наступним великим оновленням.</p>
+            <p>Для переважної більшості папок, таких як файли <code>/Hearts of Iron IV/interface/*.gfx</code>, для сортування їх за назвою файлу для інтерпретації використовуються ідентифікатори символів ASCII. Це відрізняється від алфавітного сортування, що використовується файловим провідником, оскільки великі літери вважаються такими, що йдуть перед малими літерами, і між ними є кілька символів (наприклад, підкреслення). Щоб розмістити файл особливо високо в порядку оцінки, можна використовувати префікс з пізніми ідентифікаторами символів, такими як <code>zz_</code>, і навпаки для іншого напрямку, причому базова гра зазвичай використовує для цього <code>00_</code>.</p>
+            <p>Порядок завантаження не має значення під час оцінки: якщо є збіг записів між різними файлами, гра зазвичай використовує порядок оцінки, щоб визначити, який з них повинен мати пріоритет. Наприклад, якщо базова гра містить штат з ID 123 у файлі <code>123-ABC.txt</code>, а мод містить інформацію для штату 123 у файлі <code>123-XYZ.txt</code>, гра надасть пріоритет штату, створеному першим, тобто визначенню базової гри. І навпаки, між <code>321-WWW.txt</code> у базовій грі та <code>321-DEF.txt</code> у файлах мода, буде обрано <code>321-DEF.txt</code> мода. Як саме обробляються дублікати, залежить від конкретного файлу: деякі не обробляють їх добре і їх слід уникати (наприклад, дублікати національних фокусів порушують генерацію ліній передумов), деякі надають перевагу першому створеному запису, деякі — останньому створеному запису.</p>
+            <p>Зміна порядку інтерпретації має дуже обмежене застосування, але воно існує. Деякі примітні випадки цього включають:</p>
+            <ul>
+                <li>Файли <code>/Hearts of Iron IV/interface/*.gfx</code>, які створюють спрайти, що призначають інформацію зображенням, наприклад, прив'язуючи унікальну назву. Якщо є кілька визначень одного спрайта, використовується лише пізніше оцінений спрайт, а раніший ігнорується. Базова гра помітно використовує це для DLC: якщо персонаж має портрет лише в DLC, то йому буде встановлено використання спрайта як портрета. У базовій грі спрайт встановлено так, щоб він вів до загального портрета, оскільки інакше персонаж може виглядати пошкодженим, що можливо в багатокористувацькій грі. Однак у файлах DLC спрайт, який використовується для портрета, визначається ще раз в окремому файлі пізніше в порядку оцінки, щоб забезпечити використання портрета, доданого DLC, для власників DLC.</li>
+                <li>Файли <code>/Hearts of Iron IV/common/country_tags/*.txt</code>: порядок визначення тегів країн має значення. Хоча базова гра розміщує порядок оцінки переважно в порядку всередині файлів тут, це все ще актуально. Це вирішує такі речі, як порядок оцінки файлів <code>/Hearts of Iron IV/history/countries/</code>, що може призвести до пошкодження популярності суб'єктів в іншому випадку, порядок оцінки подій/рішень/фокусів/тощо (чи то тригери для їх запуску, чи то вибір ШІ), або порядок, коли область вибирає кілька країн: як оцінених, так і в підказці.</li>
+            </ul>
+            <p>Контрольна сума, 4-символьний буквено-цифровий код, який можна побачити поруч з версією в головному меню, наприклад, <code>a2b4</code>, визначає сумісність для багатокористувацької гри та досягнень: до серверів можна приєднатися лише якщо контрольна сума ідентична контрольній сумі хоста, тоді як досягнення вмикаються лише якщо контрольна сума ідентична контрольній сумі базової гри, яку можна побачити в лаунчері. Список того, що її змінює, можна побачити у файлі <code>/Hearts of Iron IV/checksum_manifest.txt</code> базової гри, який включає цілі папки <code>common/</code>, <code>events/</code> та <code>history/</code>, а також більшу частину папки <code>map/</code>, крім <code>map/terrain/</code>. Будь-яка зміна файлів у цій папці змінить контрольну суму, тоді як будь-який мод, який їх не змінює, не змінить її.</p>
+
+            <h3 id="folder-structure">4.3. Структура папок</h3>
+            <p>Ці папки часто редагуються в модах:</p>
+            <ul>
+                <li><code>/Hearts of Iron IV/common/</code>: Це основна папка, в якій визначаються майже всі записи бази даних: країни, технології, фокуси тощо.</li>
+                <li><code>/Hearts of Iron IV/events/</code>: Папка, яка визначає події.</li>
+                <li><code>/Hearts of Iron IV/history/</code>: Ця папка в основному визначає початкову історичну інформацію: які штати належать яким країнам, початкові політичні та дипломатичні ситуації, позиції армій, початкові будівлі тощо. Зазвичай, якщо щось відбувається до вибору будь-якої країни, це визначається тут. Однак початкові залізниці та вузли постачання визначаються в папці <code>/Hearts of Iron IV/map/</code>.</li>
+                <li><code>/Hearts of Iron IV/map/</code>: Ця папка використовується для редагування зовнішнього вигляду карти, такого як провінції, показаний рельєф, карта висот тощо. Це також включає стратегічні регіони та початкові вузли постачання та залізниці. Однак межі штатів визначаються в папці <code>/Hearts of Iron IV/history/states/</code>.</li>
+                <li><code>/Hearts of Iron IV/localisation/</code>: Ця папка використовується для визначення того, як відображається текст, залежно від поточної увімкненої мови.</li>
+                <li><code>/Hearts of Iron IV/gfx/</code>: Ця папка використовується для зберігання зображень. Однак здебільшого ці зображення не завантажуються автоматично, а повинні бути пов'язані в спрайтах. Часто редаговані винятки включають <code>/Hearts of Iron IV/gfx/loadingscreens</code>, де кожен файл завжди завантажується, <code>/Hearts of Iron IV/gfx/flags</code> та підпапки, де країна намагається завантажити прапор при зміні ідеології або косметичного тегу, та файли <code>/Hearts of Iron IV/gfx/interface/equipmentdesigner/graphic_db/*.txt</code>, які призначають спрайти пулам зображень, показаних у дизайнері обладнання. Все інше вимагає спрайта.</li>
+                <li><code>/Hearts of Iron IV/interface/</code> (не плутати з <code>/Hearts of Iron IV/gfx/interface/</code>): Ця папка переважно заповнена файлами <code>*.gfx</code> та <code>*.gui</code>, обидва з яких можна відкрити в текстовому редакторі. Перші визначають графічні записи, що відображаються в грі: спрайти, які призначають назву та властивості (такі як анімація, кількість кадрів або тип завантаження) файлу зображення, шрифти, кольори тексту, стрілки на карті тощо. Останні визначають сам графічний користувацький інтерфейс: як розташовані кнопки та іконки, який GFX використовується де, де писати текст тощо. Це визначає лише зовнішній вигляд GUI, атрибути, такі як ефекти, повинні бути визначені в іншому місці.</li>
+                <li><code>/Hearts of Iron IV/music/</code>: Ця папка використовується для визначення пісень, що відтворюються на радіостанціях, та можливостей у зваженому перемішуванні.</li>
+                <li><code>/Hearts of Iron IV/sound/</code>: Ця папка використовується для визначення звуків, що відтворюються в іншому місці, зазвичай пов'язаних з елементом GUI. Це також включає такі записи, як голосові репліки дивізій.</li>
+                <li><code>/Hearts of Iron IV/portraits/</code>: Ця папка використовується для призначення спрайтів як портретів для випадково згенерованих загальних персонажів.</li>
+            </ul>
+
+            <h3 id="code-structure">4.4. Структура коду</h3>
+            <p>Мова скриптів, якою побудований код, завжди має спільну структуру: <code>&lt;атрибут&gt; = &lt;аргумент&gt;</code> (іноді використовуючи знаки нерівності у випадку тригерів), наприклад, <code>add_political_power = 100</code>, за невеликими винятками, де аргумент можна опустити. Кожен атрибут та аргумент є одним словом (символ слова включає групу <code>[a-zA-Z0-9_.,\-/]</code>), а пробільні символи служать роздільниками. Однак існує два типи аргументів, які можуть містити більше одного слова:</p>
+            <ul>
+                <li><strong>Рядки</strong> позначаються лапками (лише <code>"</code>) з обох боків. Пробіл не перерве рядок, але прямий перехід на новий рядок перерве. Якщо всередині немає пробільних символів, пропуск лапок не змінить результат (наприклад, <code>date > "1936.1.1"</code> та <code>date > 1936.1.1</code>). У рядках дозволено використовувати два спеціальні символи: <code>\"</code> використовується для написання лапки, а <code>\\</code> — для написання зворотної косої риски; зворотна коса риска не може використовуватися іншим чином. Неможливо включити перехід на новий рядок безпосередньо всередину рядка. Іноді сам атрибут може бути укладений в лапки, наприклад, <code>"TAG" = { has_political_power > 100 }</code>. Рядок може містити щонайбільше 255 символів, не враховуючи нуль-термінатор.</li>
+                <li>Там, де текст призначений для відображення гравцеві, наприклад, у підказках, атрибути зазвичай приймають ключ локалізації як аргумент. Це дозволяє відображуваному тексту змінюватися залежно від увімкненої мови та містить більше можливостей, таких як відсутність обмеження в 255 символів або можливості для налаштування тексту (наприклад, кольоровий текст, нові рядки або динамічні зміни). Якщо гра не виявляє визначеного ключа локалізації в базі даних увімкненої мови, вона за замовчуванням відображатиме аргумент безпосередньо.</li>
+            </ul>
+            <p>У певних типах атрибутів фігурні дужки використовуються для приєднання цілого блоку коду як аргументу, який зазвичай складається з іншого коду у тому ж форматі <code>&lt;атрибут&gt; = &lt;аргумент&gt;</code>. Наприклад, <code>random_country = { add_stability = 0.1 }</code> (як ефект) — це атрибут <code>random_country</code> з аргументом <code>{ add_stability = 0.1 }</code>; цей аргумент сам складається з атрибута <code>add_stability</code> з аргументом <code>0.1</code>. Зокрема, це перейде в область випадкової існуючої країни та додасть 10% стабільності.</p>
+            <p>Якщо атрибут не підтримує групування атрибутів, то використання відкриваючої дужки буде інтерпретовано як сам аргумент. Наприклад, гра інтерпретує <code>transfer_state = { 123 321 }</code> як спробу передати штат з ID <code>{</code>. Після цього гра зустрічає <code>123</code>, що буде інтерпретовано як перехід в область штату, який буде передчасно перерваний закриваючою дужкою. В результаті з'являється ще одна закриваюча дужка, яка не має відповідної відкриваючої дужки, що, ймовірно, призведе до помилки області видимості, порушуючи решту файлу.</p>
+            <p>Пропуск аргументу/знака рівності майже завжди є помилковим. Наприклад, це завжди обов'язково там, де очікуються ефекти або тригери, що робить це неправильним: <code>GER = { leave_faction }</code>. Натомість, там, де не очікується аргумент, зазвичай використовується <code>yes</code>, як у <code>GER = { leave_faction = yes }</code>. Існує кілька винятків, де аргумент слід опускати, наприклад, у розширеній формі <code>add_ideas</code>.</p>
+            <p>Коментарі позначаються символом <code>#</code>: все після цього символу до нового рядка буде повністю проігноровано грою. Наприклад:</p>
+            <pre><code>completion_reward = {
+    add_political_power = 100 #TODO: Перевірити, чи збалансовано
+}</code></pre>
+            <p>Не існує багаторядкового блоку коментарів.</p>
+            <p>Крім коментарів та рядків, нові рядки розглядаються абсолютно ідентично пробілам як роздільники. В результаті, відступи не мають значення: більшість файлів можна написати в один рядок без будь-яких змін в їх інтерпретації. Однак правильне використання відступів може значно полегшити виявлення проблем з дужками без використання підсвічування дужок текстовим редактором і загалом полегшує швидке розуміння того, що кожен блок містить у собі, а що ні.</p>
+            <p>Це також означає, що аргумент атрибута ніколи не повинен залишатися порожнім, оскільки гра інтерпретуватиме наступний атрибут як аргумент. Наприклад:</p>
+            <pre><code>focus = {
+    id = TAG_focusname
+    icon = 
+    x = 2 # Не працюватиме в грі.
+}</code></pre>
+            <p>У цьому випадку атрибут <code>icon</code> фокуса встановлюється як <code>icon = x</code>, і далі гра не знає, як інтерпретувати <code>= 2</code>. На практиці це призведе до того, що фокус не буде в очікуваному місці.</p>
+            <p>Ось ці типи блоків аргументів особливо поширені:</p>
+            <ul>
+                <li><strong>Ефекти</strong> використовуються в таких обставинах, як нагороди за завершення фокусів, опції подій, ефекти рішень, дії "on actions", файли історії країн тощо. Вони використовуються для внесення одноразової зміни в стан гри.</li>
+                <li><strong>Тригери</strong> використовуються в таких обставинах, як перевірки доступності фокусів та рішень, тригери подій або оператори <code>if</code>. Вони повертають строго булеве значення (істина або хиба), не змінюючи нічого в стані гри.</li>
+                <li><strong>Області видимості (Scopes)</strong> — це певна підмножина тригерів та ефектів, які можна використовувати для зміни країни/штату/персонажа/дивізії, для яких виконуються ефекти або перевіряються тригери.</li>
+                <li><strong>Модифікатори</strong> використовуються для застосування постійної числової зміни, такої як щоденний приріст політичної влади. Зазвичай ідеї, такі як "духи", використовуються для застосування їх до країн.</li>
+            </ul>
+            <p>Порядок розміщення атрибутів може мати значення або ні, залежно від контексту. Зокрема, ось загальні правила:</p>
+            <ul>
+                <li>Порядок ефектів та тригерів має найбільше значення: вони виконуються в тому порядку, в якому розміщені, і це визначає їх розміщення в підказці, що відображається гравцеві. Наприклад, якщо блок ефектів спочатку містить <code>annex_country</code>, а потім оператор <code>if</code>, що перевіряє, чи анексована країна володіє штатом, оператор <code>if</code> завжди буде хибним, оскільки країна вже анексована. У тригерах порядок виконання має значення для тимчасових змінних.</li>
+                <li>Порядок модифікаторів взагалі не має значення, а їх порядок у підказці жорстко закодований.<sup>[d]</sup></li>
+                <li>Порядок різних атрибутів одного запису не змінює інтерпретацію. Наприклад, якщо нагорода національного фокуса визначена перед його позицією, а не навпаки, як зазвичай, це не буде розглядатися по-іншому.</li>
+                <li>Для одного типу записів бази даних позиція у файлі використовується для порядку їх створення. Приклади, де цей порядок особливо помітний гравцеві, — це рішення (якщо не перевизначено пріоритетом), будівлі або ідеології.</li>
+                <li>Цей порядок створення може мати значення в інших посиланнях. Наприклад, в обладнанні тип обладнання повинен бути призначений існуючому архетипу. Якщо архетип не існує під час створення типу обладнання, гра аварійно завершить роботу, навіть якщо визначення є пізніше у файлі.</li>
+                <li>Там, де це застосовно, назва файлу в основному використовується для оцінки, а порядок всередині файлів є вторинним. Оскільки для цього використовується порядок ASCII, назва файлу, що починається з <code>00_</code>, зазвичай використовується для забезпечення того, щоб він оцінювався на початку, тоді як початок з <code>zz_</code> використовується навпаки.</li>
+                <li>Для одного типу атрибута в записі бази даних інтерпретація варіюється. Якщо підтримується кілька, позиція в коді визначає порядок (наприклад, кожна <code>prerequisite = { ... }</code> у національному фокусі повинна бути виконана, щоб його можна було завершити, або кожна <code>immediate = { ... }</code> у події буде виконана при запуску події). В іншому випадку гра може вибрати найраніше або найпізніше визначення атрибута, ігноруючи інші (наприклад, у скриптованій локалізації буде використано перший дійсний <code>text = { ... }</code>, де тригер виконаний).</li>
+                <li>Часто один і той же атрибут навмисно дублюється з різними аргументами. Обробка дубльованих атрибутів варіюється і не призначена скрізь. Наприклад, кожен екземпляр <code>focus = { ... }</code> всередині дерева національних фокусів розглядається як окремий національний фокус. Зазвичай, якщо блок ефектів дублюється (наприклад, <code>immediate = { ... }</code> події), кожен виконується в порядку їх розміщення.</li>
+                <li>Іноді назва атрибута є довільною. Наприклад, в ідеях кожна ідея (розміщена всередині категорії ідей) назва атрибута буде розглядатися як назва ідеї.</li>
+            </ul>
+
+            <h3 id="debug-mode">4.5. Режим налагодження</h3>
+            <p>Режим налагодження активується за допомогою параметра запуску <code>-debug</code>. Зокрема, є два способи його застосування:</p>
+            <ul>
+                <li>Властивості гри в Steam включають параметри запуску. Клацання правою кнопкою миші по запису гри в списку придбаних ігор викликає меню. Внизу меню знаходиться "Властивості...", що відкриє окреме вікно. Внизу розділу "Загальні" (відкритого за замовчуванням) знаходяться параметри запуску. Кожен параметр запуску вводиться через пробіл, наприклад, <code>-checksum -debug</code>.</li>
+                <li>У Windows можна застосувати параметр запуску через ярлик до файлу <code>hoi4.exe</code> або <code>dowser.exe</code> у каталозі гри. Після створення ярлика, клацання правою кнопкою миші по ньому та переходу до властивостей, відкриється меню властивостей ярлика. У розділі "Ярлик" властивостей (відкритого за замовчуванням), розділ "Об'єкт" містить шлях до файлу. Параметри запуску вставляються після закриваючої лапки, розташованої після назви файлу. Між лапкою та початком параметра запуску повинен бути щонайменше один пробіл, а подальші параметри запуску також розділяються пробілами. Приклад розділу "Об'єкт": <code>"C:\Program Files (x86)\Steam\steamapps\common\Hearts of Iron IV\hoi4.exe" -debug -start_tag=ALB</code>.</li>
+            </ul>
+            <p>Режим налагодження дуже корисний для моддінгу, надаючи такі переваги:</p>
+            <ul>
+                <li><strong>Автоматичне завантаження</strong> - Зміни у файлах, зроблені всередині папки мода, відображатимуться в грі без необхідності використовувати консольну команду 'reload'. Це також автоматично додасть помилки у файлах до логу помилок. Це стосується лише файлів, які існували під час запуску гри, за одним винятком: якщо прямий шлях до файлу згадується деінде всередині мода, то він все ще може бути завантажений для цього конкретного використання. Приклади цього включають накази про бойовий порядок, оскільки <code>load_oob = "TAG_my_oob"</code> функціонує як пряме посилання на <code>/Hearts of Iron IV/history/units/TAG_my_oob.txt</code>; або GFX, оскільки спрайти безпосередньо посилаються на розташування зображення. Хоча, зокрема, завантаження зображень у грі не розпаковує їх належним чином, що призводить до видимих спотворень або чорних фонів, які виправляються після перезапуску. Хоча зміни до більшості файлів працюють, це не працює з <code>/Hearts of Iron IV/history/countries/</code>, <code>/Hearts of Iron IV/history/states/</code> та <code>/Hearts of Iron IV/map/</code>, хоча nudge частково може використовуватися для останніх двох.</li>
+                <li><strong>Відсутність аварійного завершення через визначення карти</strong> - Якщо карта відредагована, є ймовірність появи помилок. Будь-які помилки, пов'язані з картою, призведуть до аварійного завершення гри під час завантаження з повідомленням 'Some errors are present in the map defition[sic] and have been logged to error.log'. Якщо режим налагодження увімкнено, гра продовжить завантажуватися належним чином. Визначення карти відбувається, коли в лозі помилок після завантаження в країну є будь-яка помилка, що містить MAP_ERROR, оскільки певні помилки карти ще не реєструються, коли параметр запуску налагодження відкриває лог під час завантаження головного меню.<sup>[c]</sup></li>
+                <li><strong>Розширений лог помилок</strong> - Певні помилки не реєструються в лозі, якщо режим налагодження не увімкнено. Прикладом можуть бути помилки визначення карти, згадані вище, оскільки гра аварійно завершується, перш ніж встигнути їх зареєструвати. Увімкнення режиму налагодження забезпечить реєстрацію всіх помилок, які можуть бути зареєстровані в лозі помилок.</li>
+                <li><strong>Легкість відкриття логу помилок</strong> - Поки в лозі є будь-які помилки, лог автоматично відкриватиметься під час завантаження гри або після вибору країни. До логу також можна буде отримати доступ, клацнувши на собаку помилок у нижньому правому куті після завантаження в країну, яка з'являється щоразу, коли в лозі з'являється нова помилка (оскільки файли автоматично завантажуються). Якщо повний шлях до каталогу користувача, після розширення <code>gameDataPath</code> у <code>/Hearts of Iron IV/launcher-settings.json</code>, містить будь-які символи, що не належать до ASCII, такі як нелатинський шрифт або діакритичні знаки, то він не зможе відкритися з повідомленням "The system cannot find the path specified", що можна виправити, змінивши папку, що використовується для даних гри, перемістивши файли за потреби.</li>
+                <li><strong>Легкість доступу до Nudge</strong> - З увімкненим режимом налагодження в головному меню з'явиться опція відкриття Nudge. Це може бути корисно для економії часу або для можливості відкрити Nudge, якщо гра аварійно завершується під час спроби завантажитися в країну (це може статися, якщо файл <code>/Hearts of Iron IV/tutorial/tutorial.txt</code> посилається на недійсні штати, якщо цей файл не містить щонайменше одного <code>tutorial = {}</code>, навіть якщо він нічого не містить, якщо вузли постачання та залізниці налаштовані неправильно, або з інших причин).</li>
+                <li><strong>Інформація про графічний інтерфейс у головному меню</strong> - Поки режим налагодження увімкнено, натискання клавіші <code>`</code> (зазвичай у верхньому лівому куті клавіатур QWERTY, що використовується для відкриття консолі за замовчуванням) у головному меню надасть інформацію про використаний графічний інтерфейс, надаючи назви елементів, їх позиції та спрайти, що використовуються ними. Це еквівалентно використанню консольної команди "gui", але режим налагодження дозволяє робити це в головному меню.</li>
+                <li><strong>Розширена інформація</strong> - З увімкненим режимом налагодження при наведенні курсора на провінцію з'явиться додаткова інформація, включаючи її ID та ID штату, в якому вона знаходиться, теги власника та контролера тощо. Ця налагоджувальна інформація також надається для цілих країн при наведенні курсора на їхній прапор у вікні політики/дипломатії країни, наприклад, тег, оригінальний тег (для динамічних країн) та косметичний тег.</li>
+                <li><strong>Доступ до більшої кількості консольних команд</strong> - Певні консольні команди заблоковані лише для розробників, і режим налагодження дозволяє гравцеві їх використовувати. Однак зауважте, що не всі консольні команди стануть доступними.</li>
+                <li><strong>Легкість доступу до файлів GUI</strong> - При наведенні курсора на елемент GUI, <code>Ctrl+Alt+Правий клік</code> можна використовувати для відкриття меню налагодження, яке дозволить перейти до файлу GUI, де визначено елемент.</li>
+                <li><strong>Автоматичне збереження при мирних угодах</strong> - Гра автоматично створює файл збереження щоразу, коли відбувається мирна конференція з увімкненим налагодженням.</li>
+            </ul>
+            <p>Якщо використовується консольна команда 'debug', доступними будуть лише останні 4 переваги. Якщо налагодження увімкнено через параметри запуску, чи то <code>-debug</code>, чи <code>-crash_data_log</code> (не вмикає автоматичне завантаження), усі переваги будуть надані. Однак багатокористувацька гра буде вимкнена, а продуктивність гри знизиться порівняно з вимкненим налагодженням.</p>
+
+            <h4 id="logs">4.5.1. Логи</h4>
+            <p>Логи знаходяться в папці <code>/Hearts of Iron IV/logs/</code> каталогу користувача та можуть використовуватися для усунення несправностей гри. Зокрема, ці особливо корисні при роботі з неочікуваною поведінкою:</p>
+            <ul>
+                <li><code>text.log</code> використовується для дублікатів визначень значень локалізації.</li>
+                <li><code>game.log</code> — це інформація, яка реєструється посеред гри. Зокрема, "log" (або як ефект, або як тригер) виводить свої логи в цей файл.</li>
+                <li><code>error.log</code> реєструє те, що розробники гри передбачили як потенційні помилки, які можуть виникнути під час моддінгу гри. Таким чином, він зазвичай опускає помилки, що спричиняють аварійне завершення, деталізуючи натомість потенційну неочікувану поведінку. Однак він може бути корисним для усунення несправностей, що спричиняють аварійне завершення, оскільки ця неочікувана поведінка іноді може призвести до аварійного завершення (наприклад, помилка "invalid event target" може призвести до передачі неконтрольованого штату, спричиняючи аварійне завершення). Кожна помилка, позначена MAP_ERROR, вимагає режиму налагодження для появи, інакше гра не зможе відкритися.<sup>[c]</sup> Деякі помилки MAP_ERROR з'являються лише після вибору країни та початку гри.</li>
+                <li><code>system.log</code> деталізує системно згенеровану інформацію, зазвичай пов'язану з графікою. З параметром запуску <code>-checksum</code> він також генерує вивід для контрольної суми, який можна порівняти з контрольною сумою іншого користувача, щоб з'ясувати, де саме різниця.</li>
+            </ul>
+
+            <h3 id="localisation-concept">4.6. Локалізація</h3>
+            <p><strong>Основна стаття: <a href="https://hoi4.paradoxwikis.com/Localisation_modding" target="_blank" rel="noopener noreferrer">Локалізація</a></strong></p>
+            <p>Назви, що залежать від мови, визначаються в локалізації. Беручи до уваги лише англійську мову, використовується папка <code>/Hearts of Iron IV/localisation/english</code>. Файл у ній повинен закінчуватися на <code>_l_english.yml</code> в назві файлу, щоб працювати належним чином, включаючи розширення, яке за замовчуванням приховане в Провіднику Windows. Файл повинен бути закодований у кодуванні UTF-8 з включеною позначкою порядку байтів, зазвичай це називається UTF-8-BOM. Точні деталі конвертації залежать від текстового редактора. Перший рядок у файлі — <code>l_english:</code>, щоб призначити його цій базі даних.</p>
+            <p>Запис локалізації структурований як <code>localisation_key:0 "Value of the key"</code>. Тут перша частина перед двокрапкою називається ключем локалізації, кінцева частина в лапках — значенням ключа локалізації, а число посередині — номером версії. Номер версії є суто коментарем і не читається грою, і його можна повністю опустити. Будь-який файл локалізації можна використовувати для будь-якої локалізації, і краще використовувати нові файли, а не копіювати файли базової гри.</p>
+            <p>Хоча теоретично можливо уникнути використання локалізації у багатьох випадках, локалізація має переваги над прямим використанням рядків:</p>
+            <ul>
+                <li><strong>Підтримка налаштування тексту.</strong> Це обов'язково включає нові рядки та кольоровий текст, які ніколи не працюють всередині рядків. У деяких випадках динамічна локалізація, позначена квадратними дужками, наприклад, <code>[TAG.GetName]</code>, працюватиме з локалізацією, але не в рядках.</li>
+                <li><strong>Підтримка кількох мов.</strong> Навіть якщо мод призначений лише для англійської або іншої мови, краще залишити можливість для потенційних субмодів. Хоча все ще можливо створювати субмоди-переклади для модів, які не використовують локалізацію, стає набагато складніше підтримувати їх в актуальному стані (оскільки в цьому випадку потрібно змінювати не лише файли локалізації) і це змінює контрольну суму (унеможливлюючи багатокористувацьку сесію між тими, хто має субмод-переклад, і тими, хто його не має).</li>
+                <li>Рядки мають обмеження символів щонайбільше 255 видимих символів, що робить їх непрактичними для використання на великих шматках тексту, таких як описи.</li>
+                <li>Символи, що не належать до ASCII, такі як умлаути та інші діакритичні знаки, не підтримуються рядками в кількох файлах, таких як риси лідерів країн або правила суміжності. Підтримка символів, що не належать до ASCII, зазвичай позначається тим, що файл має позначку порядку байтів (зазвичай зазначається як окреме кодування UTF-8-BOM), що призводить до того, що гра не може завантажити файл, якщо він безпосередньо не підтримується.</li>
+            </ul>
+
+            <h3 id="gfx-concept">4.7. GFX</h3>
+            <p><strong>Основна стаття: <a href="https://hoi4.paradoxwikis.com/Graphical_asset_modding" target="_blank" rel="noopener noreferrer">Моддінг графічних ресурсів</a></strong></p>
+            <p>Здебільшого зображення зберігаються у форматі DDS, зазвичай ARGB8 (або A8R8G8B8, залежно від редактора зображень) без міпмапів. Точний формат не має суворого значення, однак: більшість файлів зображень можна зберегти у форматах DDS, TGA, PNG або BMP; доки інформація у спрайті правильна. Основними винятками з цього є прапори, що представляють країни, які повинні бути 32-бітними файлами TGA без кодування RLE та з точкою початку координат у нижньому лівому куті, а також файли в папці карти.</p>
+            <p>Спрайт використовується для додавання додаткової інформації до файлу зображення (наприклад, назва спрайта, тип завантаження, кількість кадрів або анімація) і потрібен для відображення зображення в графічному користувацькому інтерфейсі. Спрайти визначаються у файлах <code>/Hearts of Iron IV/interface/*.gfx</code>, які відкриваються текстовим редактором. Зауважте, що папка не пов'язана з <code>/Hearts of Iron IV/gfx/interface/</code>.</p>
+            <p>Спрайти визначаються всередині блоку <code>spriteTypes = { ... }</code> і мають різні визначення, такі як простий <code>spriteType</code>, <code>corneredTileSpriteType</code>, який можна використовувати з довільним розміром, розтягуючись для відповідності з урахуванням кутів, <code>frameAnimatedSpriteType</code>, який дозволяє створювати послідовність анімації, а не обмежуватися скриптованими, які можна зробити в <code>spriteTypes</code>, тощо. Найпростіший можливий файл спрайта складається з наступного:</p>
+            <pre><code>spriteTypes = {
+    spriteType = {
+        name = GFX_my_sprite_name
+        texturefile = gfx/interface/folder/filename.dds # Повинен використовувати / для розділення папок
+    }
+    spriteType = {
+        name = GFX_my_second_sprite
+        texturefile = gfx/anotherfolder/filename.dds
+    }
+}</code></pre>
+            <p>Це призначає файлу <code>/Hearts of Iron IV/gfx/interface/folder/filename.dds</code> спрайт <code>GFX_my_sprite_name</code> у грі. Цей спрайт потім можна використовувати в графічному користувацькому інтерфейсі, наприклад, як іконку рішення або фокуса (зауважте, що іконки фокусів також повинні мати окремий спрайт для анімації блиску). Єдині зображення, які не мають жодного визначення у файлах інтерфейсу, це:</p>
+            <ul>
+                <li>Прапори, що використовуються для країн у <code>/Hearts of Iron IV/gfx/flags/</code> та її підпапках.</li>
+                <li>Екрани завантаження в <code>/Hearts of Iron IV/gfx/loadingscreens/</code>. Зауважте, однак, що фон головного меню, який зазвичай зберігається в цій папці, визначається як спрайт.</li>
+                <li>Портрети персонажів. Вони можуть використовувати спрайт як визначення, але це єдине місце в грі, де це не є обов'язковою вимогою, приймаючи прямі посилання на файл як альтернативу.</li>
+            </ul>
+            <p>Також існують потенційні помилки, пов'язані зі спрайтами:</p>
+            <ul>
+                <li><strong>Спрайт повністю прозорий:</strong> Це ознака того, що спрайт існує, але зображення всередині не може бути завантажене. Це трапляється, якщо <code>texturefile</code> визначено для файлу, який не існує (шлях до папки або назва файлу можуть не відповідати самому файлу), або якщо саме зображення пошкоджене. Це зазвичай супроводжується помилкою <code>Texture Handler encountered missing texture file</code>.</li>
+                <li><strong>Спрайт замінено стандартним зображенням:</strong> Це ознака того, що щось не так із самим спрайтом, а не із зображенням: гра посилається на неіснуючий спрайт десь. Зазвичай це друкарська помилка в назві спрайта або недотримання формату назви (наприклад, пропуск <code>_shine</code> в кінці спрайта блиску іконки національного фокуса). Переконайтеся, що спрайт існує та має правильну назву.<sup>[e]</sup></li>
+                <li><strong>Персонаж використовує випадково згенерований портрет:</strong> Це ознака однієї з двох попередніх проблем: персонаж з недійсним спрайтом або відсутнім файлом матиме випадковий портрет.</li>
+            </ul>
+
+            <hr>
+            <h2 id="mod-structure">5. Структура мода</h2>
+            <p>Розширення файлу <code>.mod</code> за замовчуванням не відображається в Провіднику Windows, що може ускладнити пошук згаданих тут файлів. Переконайтеся, що розширення файлів налаштовані на відображення.<br>
+            Якщо не зазначено інше, цей розділ передбачає, що файли знаходяться в каталозі користувача.</p>
+            <p>З кожним модом пов'язані два файли-дескриптори з розширенням <code>.mod</code>:</p>
+            <ul>
+                <li><strong>Файл-дескриптор, специфічний для користувача</strong>, який призначає інформацію, що використовується для завантаження мода. Зокрема, шлях до папки, що зберігає мод, повинен бути визначений лише тут, оскільки він може відрізнятися залежно від користувача. Вони зберігаються в папці <code>/Hearts of Iron IV/mod/</code> каталогу користувача, де назва файлу визначає порядок їх завантаження (якщо не перевизначено залежностями). Назва файлу не може містити пробілів. Наприклад, <code>/Hearts of Iron IV/mod/ugc_1234567890.mod</code> або <code>/Hearts of Iron IV/mod/modname.mod</code> є дескрипторами, специфічними для користувача.</li>
+                <li><strong>Файл-дескриптор, специфічний для мода</strong>, який призначає інформацію, яку має мод і яка повинна бути спільною незалежно від користувача. Цей файл повинен називатися <code>descriptor.mod</code> і знаходиться в основній папці шляху, тобто в папці, вказаній у шляху у файлі вище. Наприклад, <code>/Hearts of Iron IV/mod/my mod/descriptor.mod</code> або <code>../steam/steamapps/workshop/content/394360/1234567890/descriptor.mod</code> є дескрипторами, специфічними для мода.</li>
+            </ul>
+            <p>Два дескриптори призначені для того, щоб мати переважно ідентичну інформацію, за винятком того, що лише файл, специфічний для користувача, повинен мати запис <code>path</code> у своєму визначенні, оскільки це не є спільним для різних користувачів і може значно відрізнятися. Лаунчер забезпечує це для аргументів, які можна визначити в лаунчері, однак інші аргументи, такі як <code>replace_path</code>, не будуть автоматично перенесені.</p>
+            <p>Лаунчер можна використовувати для створення пари дескрипторів: для цього використовується меню, доступне через "Усі встановлені моди" -> "Завантажити мод" -> "Створити мод". Це не дає свободи у виборі розташування папки, що використовується як папка мода, і не надає всіх можливих аргументів для включення в дескриптор мода, тому може знадобитися ручне редагування дескрипторів у результаті для додавання інших атрибутів мода або зміни розташування папки.</p>
+            <p>Крім того, ці файли в каталозі користувача також використовуються під час завантаження модів:</p>
+            <ul>
+                <li><code>/Hearts of Iron IV/dlc_load.json</code> надає список увімкнених модів (у вигляді списку скорочених шляхів до файлів <code>.mod</code>, як-от "mod/modname.mod") та вимкнених DLC під час відкриття гри. Хоча це автоматично змінюється лаунчером перед запуском гри, це дозволяє вмикати та вимикати різні моди без використання лаунчера. Якщо є кілька визначень <code>enabled_mods</code>, гра використовуватиме перше визначене визначення, дозволяючи набір плейлистів без використання лаунчера.</li>
+                <li><code>/Hearts of Iron IV/launcher-v2.sqlite</code> або <code>/Hearts of Iron IV/launcher-v2_openbeta.sqlite</code> — це база даних SQLite, яка використовується для генерації інформації про моди та плейсети в лаунчері. Іноді лаунчер може не оновити існуючі моди (наприклад, помилка "invalid path" може залишатися вічно навіть після виправлення шляху, або новий дескриптор мода, специфічний для користувача, може не бути виявлений), і видалення цього файлу дозволяє перегенерувати плейсети. Після видалення файлу гра підхопить кожен дескриптор мода, специфічний для користувача, і відтворить список модів, використовуючи кожен з них. Моди, розміщені в Steam Workshop та Paradox mods, будуть автоматично додані до стандартного плейсету; локальні моди залишаться в списку "Усі встановлені моди", але за замовчуванням не будуть призначені жодному плейсету.</li>
+            </ul>
+
+            <h3 id="descriptor-contents">5.1. Зміст дескриптора</h3>
+            <p>Більшість файлів <code>.mod</code> містять вміст, подібний до цього, який можна налаштувати в лаунчері:</p>
+            <pre><code>name = "Average mod"
+path = "mod/modname"
+picture = "thumbnail.png"
+version = "v1"
+supported_version = "1.13.*"
+tags={
+    "Gameplay"
+    "Historical"
+}
+remote_file_id="1678247250"</code></pre>
+            <p>Ось такі аргументи:</p>
+            <ul>
+                <li><code>name</code> — назва мода, як вона відображається в лаунчері. Це також використовується в атрибуті <code>dependencies</code> модів. Назва повинна бути унікальною порівняно з іншими встановленими модами.</li>
+                <li><code>path</code> — використовується для визначення розташування папки мода. Для локальних модів введення <code>path = "mod/modname/"</code> як скороченого розташування автоматично додасть розташування каталогу користувача після відкриття лаунчера. Будь-яка папка може використовуватися для зберігання мода, однак у шляху можна використовувати лише символи ASCII. Якщо шлях містить символи, що не належать до ASCII, такі як діакритичні знаки або нелатинські шрифти, мод не зможе бути завантажений. Роздільником папок є виключно пряма коса риска "/". Це повинно бути присутнім лише у файлі, специфічному для користувача.</li>
+                <li><code>picture</code> — назва файлу зображення, призначеного моду. Воно відображатиметься в лаунчері для модів Steam та Paradox, а також як мініатюра в Steam Workshop та Paradox Mods. Зображення повинно міститися в кореневому каталозі мода (визначеному через <code>path</code>) і мати розмір менше 1 МБ. Це повинно бути визначено після назви мода. Локальні моди не матимуть зображення в лаунчері, навіть якщо це визначено.</li>
+                <li><code>version</code> — рядок, що відображається біля назви мода в лаунчері як версія мода. Приймається будь-який рядок і не дає жодних змін.</li>
+                <li><code>supported_version</code> — використовується для визначення, для якої версії гри призначений мод, інакше надає позначку 'застарілий' у лаунчері. Останнє число версії можна замінити зірочкою, що означатиме, що мод працюватиме на будь-якому незначному оновленні в межах цього основного оновлення.</li>
+                <li><code>tags</code> — список тегів, які використовуються в Steam Workshop та Paradox Mods.</li>
+                <li><code>remote_file_id</code> — використовується для приєднання елемента Steam Workshop або Paradox Mods до мода, щоб увімкнути його оновлення в лаунчері.</li>
+            </ul>
+            <p>Ці аргументи неможливо встановити в лаунчері, їх можна додати лише безпосередньо:</p>
+            <pre><code>user_dir = "NewSaveFolder"
+dependencies = { "Major Mod" "Major Mod 2" }
+replace_path = "history/states" 
+replace_path = "map/strategicregions"</code></pre>
+            <ul>
+                <li><code>user_dir</code> змінює папку, де гра зберігає збереження. Це запобігає завантаженню збереження, зробленого в базовій грі та модах з іншим записом <code>user_dir</code>, і, навпаки, запобігає завантаженню збережень, зроблених у цьому моді, в базовій грі або модах з іншим записом <code>user_dir</code>.</li>
+                <li><code>dependencies</code> змінює порядок завантаження модів, зокрема, змушуючи цей мод завантажуватися після кожного мода, переліченого в цьому атрибуті. Це не робить цей мод залежним від перелічених модів для роботи. Зміна порядку завантаження забезпечить, що будь-який <code>replace_path</code> у моді-залежності залишить файли цього мода недоторканими, і що файли цього мода перезапишуть файли мода-залежності у випадку збігу імен файлів. Необхідно для правильної роботи субмодів.</li>
+            </ul>
+
+            <h4 id="replace-path">5.1.1. replace_path</h4>
+            <p><code>replace_path</code> використовується для вивантаження кожного раніше завантаженого файлу під час завантаження головного меню у вказаній папці. Це стосується лише файлів безпосередньо в цій папці, будь-які підпапки залишаться недоторканими.</p>
+            <p>Це не змушує мод замінювати вміст папки: все, що вище в порядку завантаження, ніж мод, буде завантажено точно так само, все, що нижче мода, спочатку завантажиться, а потім вивантажиться (наприклад, помилка, коли файл завантажується двічі, якщо є файл з назвою, що відрізняється лише регістром, все ще буде присутня, навіть якщо один з файлів призначений для заміни за допомогою <code>replace_path</code>), все, що завантажується після головного меню, все одно завантажуватиметься із "замінених" папок. Це не змінює порядок завантаження: якщо файл не може перезаписати файл іншого мода, він все одно не зробить цього з використанням цього атрибута; натомість, <code>dependencies</code> використовується в атрибутах мода для зміни порядку завантаження. У випадку, якщо мод не може перезаписати файли базової гри, це ніколи не вирішить проблему: переконайтеся, що папка, в яку ви пишете, дійсно є папкою мода, а не, наприклад, каталогом користувача або резервною копією мода; у випадку прапорів гра іноді може не перезаписати папку <code>/Hearts of Iron IV/gfx/flags/</code> базової гри модом, що можна вирішити, створивши інший мод і перемістивши файли туди.</p>
+            <p>Наприклад, <code>replace_path = "history/states"</code> забезпечить, що жодні файли штатів з базової гри або каталогу користувача не будуть завантажені під час запуску гри з модом. Це можна використовувати в капітальних ремонтах карти, щоб забезпечити, що жоден вміст базової гри не буде прочитаний з неочікуваними результатами. Оскільки каталог користувача знаходиться раніше в порядку завантаження, ніж файли мода, це також, здавалося б, запобігатиме будь-якому впливу Nudger на штати, однак файли все одно виводитимуться в папку, навіть якщо їх негайно вивантажать після збереження.</p>
+            <p>Оскільки це вивантажує лише індексовані файли, пряме посилання на файл не зміниться незалежно від наявності <code>replace_path</code>. Наприклад, <code>replace_path = "history/units"</code> нічого не змінить, оскільки файли в цій папці не перевіряються під час завантаження головного меню, а завантажуються за прямим посиланням на назву файлу, наприклад, <code>oob = "TAG_1936"</code> у файлі історії країни. Аналогічно, <code>replace_path = "gfx/flags"</code> нічого не змінить, оскільки прапори, що ідентифікують країну, завантажуються лише тоді, коли країна змінює правлячу групу ідеологій.</p>
+            <p>Це особливо очевидно з екранами завантаження: <code>replace_path = "gfx/loadingscreens"</code> запобігатиме появі будь-якого екрана завантаження базової гри або DLC під час завантаження, однак фон головного меню залишиться таким самим, ніби <code>replace_path</code> не було. Це тому, що фон головного меню визначається як спрайт з прямим посиланням на зображення, за замовчуванням у <code>/Hearts of Iron IV/interface/frontendmainviewbg.gfx</code>.</p>
+            <p>Цю опцію потрібно додати до обох файлів <code>.mod</code>: якщо її пропустити в дескрипторі, специфічному для мода, лаунчер видалить її з дескриптора, специфічного для користувача, тоді як якщо її пропустити в дескрипторі, специфічному для користувача, вона не матиме ефекту, замість того, щоб копіюватися з дескриптора, специфічного для мода, як більшість інших атрибутів.</p>
+            <p>Це часто спричиняє аварійне завершення гри та неінтуїтивні помилки, якщо використовується необережно. У деяких папках гра не розрахована на відсутність записів бази даних, таких як національні фокуси, що призводить до аварійного завершення; в інших, таких як скриптовані тригери, є кілька способів використання записів, крім очевидних, що може спричинити неінтуїтивні помилки, наприклад, система опору спрацьовує ненавмисно. Тому атрибут <code>replace_path</code> не слід використовувати необережно: у файлах мода завжди повинен бути щонайменше один файл із вмістом у заміненій папці, а вміст базової гри в папці слід перевіряти вручну, щоб побачити, чи щось корисне краще залишити в моді.</p>
+
+            <hr>
+            <h2 id="game-data">6. Ігрові дані</h2>
+            <ul>
+                <li><a href="https://hoi4.paradoxwikis.com/Console_commands" target="_blank" rel="noopener noreferrer">Консольні команди</a>, корисні для налагодження модів.</li>
+                <li><a href="https://hoi4.paradoxwikis.com/Scopes" target="_blank" rel="noopener noreferrer">Області видимості (Scopes)</a>, <a href="https://hoi4.paradoxwikis.com/Triggers" target="_blank" rel="noopener noreferrer">Тригери</a> та <a href="https://hoi4.paradoxwikis.com/Effects" target="_blank" rel="noopener noreferrer">Ефекти</a>, що використовуються для скриптингу.</li>
+                <li><a href="https://hoi4.paradoxwikis.com/Modifiers" target="_blank" rel="noopener noreferrer">Модифікатори</a>, що використовуються для впливу на розрахунки, які виконує гра.</li>
+                <li><a href="https://hoi4.paradoxwikis.com/Localisation_modding" target="_blank" rel="noopener noreferrer">Локалізація</a>, що використовується для тексту, який відображається гравцеві залежно від поточної увімкненої мови.</li>
+                <li><a href="https://hoi4.paradoxwikis.com/Graphical_asset_modding" target="_blank" rel="noopener noreferrer">Моддінг графічних ресурсів</a> для створення спрайтів, що використовуються майже для кожного 2-вимірного зображення, яке може з'явитися в грі.</li>
+                <li><a href="https://hoi4.paradoxwikis.com/Defines" target="_blank" rel="noopener noreferrer">Defines</a>, які дозволяють змінювати константи, що використовуються в деяких жорстко закодованих розрахунках, таких як дата початку або необхідна кількість переможних очок для відображення певного значка над провінцією.</li>
+                <li><a href="https://hoi4.paradoxwikis.com/Static_modifiers" target="_blank" rel="noopener noreferrer">Статичні модифікатори</a> також включають модифікатори, що застосовуються у жорстко закодованих випадках, таких як штраф за некорінний штат або вартість політичної влади при виборі національного фокуса.</li>
+            </ul>
+
+            <hr>
+            <h2 id="tools-utilities">7. Інструменти та утиліти</h2>
+            <ul>
+                <li><a href="https://forum.paradoxplaza.com/forum/forums/hearts-of-iron-iv-user-mods.950/" target="_blank" rel="noopener noreferrer">Офіційний форум Paradox для модів</a></li>
+                <li><a href="https://www.dropbox.com/s/59eqtm2b7s00mzh/Clausewitz%20Maya%20Exporter%20v2.8.1.zip?dl=0" target="_blank" rel="noopener noreferrer">Maya exporter</a> - Clausewitz Maya Exporter для створення власних 3D-моделей.</li>
+                <li><a href="https://steamcommunity.com/app/394360/workshop/" target="_blank" rel="noopener noreferrer">Steam Workshop</a> - Місце, де ви можете ділитися своїми творіннями з іншими гравцями.</li>
+            </ul>
+
+            <hr>
+            <h2 id="common-mistakes">8. Поширені помилки</h2>
+            <ul>
+                <li><strong>Кілька модів з однаковою назвою в лаунчері (Мод не завантажується)</strong> – Це часто трапляється при підписці на власний мод у Steam Workshop. Якщо є два моди з однаковою назвою, які можна вибрати в лаунчері, лише той, що завантажується раніше, матиме виявлені файли; інший мод відображатиметься як такий, що нічого не змінює в грі. Це виправляється зміною атрибута <code>name</code> у дескрипторах одного з модів.
+                    <ul>
+                        <li>Загалом, немає причин підписуватися на власний мод у Steam Workshop: він майже ніколи не функціонуватиме інакше, ніж локальний мод, і це також іноді може порушити оновлення мода через дублікати атрибутів <code>remote_file_id</code> у різних модах.</li>
+                    </ul>
+                </li>
+                <li><strong>Неправильний шлях (<code>replace_paths</code> застосовуються,
+                 але мод не завантажується)</strong> – У цьому випадку потрібно налаштувати файл <code>/Hearts of Iron IV/mod/modname.mod</code> каталогу користувача, відкривши його безпосередньо в текстовому редакторі. Існує два основних варіанти цієї проблеми:
+                    <ul>
+                        <li><strong>Неправильний шлях</strong> – Це часто є причиною, якщо гра відображає розмір файлу мода, але не завантажує його. Мод не спрямовує безпосередньо до файлу. Іноді це може бути причиною подальшого вкладення папок, наприклад, якщо мод знаходиться в <code>mod/my_mod/cool_mod</code>, але файл <code>.mod</code>, специфічний для користувача, містить <code>path = "mod/my_mod"</code>. У цьому випадку файли все ще існують і завантажуються. Однак гра, наприклад, очікує дерева фокусів у папці <code>/Hearts of Iron IV/common/national_focus/</code>. <code>mod/my_mod/cool_mod/common/national_focus/</code> сприймається як <code>/Hearts of Iron IV/cool_mod/common/national_focus/</code>, оскільки <code>path = "mod/my_mod"</code> не "відкидає" папку <code>/cool_mod/</code>. Це виправляється простою зміною шляху на правильну папку.</li>
+                        <li><strong>Недійсний шлях</strong> – Призначена папка правильна, але вказана таким чином, що гра не може її розпізнати.
+                            <ul>
+                                <li>Один із способів зробити це — використання зворотних косих рисок для розділення папок, наприклад, <code>path = "mod\my_mod"</code>. Це неправильно, оскільки одна зворотна коса риска сприймається як керуючий символ. Правильним є використання прямих косих рисок, як у <code>path = "mod/my_mod"</code>.</li>
+                                <li>Інший спосіб — використання спеціальних символів у назві, наприклад, <code>path = "C:/Users/Приклад кирилиці/Documents/Paradox Interactive/Hearts of Iron IV/mod/my_mod"</code>. У цьому випадку спеціальний символ визначається як той, що займає більше 1 байта для запису в UTF-8 і не присутній у друкованих символах ASCII. Це часто назви папок не англійською мовою, такі як діакритичні знаки або нелатинські алфавіти. У цьому випадку його можна перенаправити до папки, яка не містить спеціальних символів у назві, наприклад, <code>path = "D:/Hearts of Iron IV modding/my_mod"</code>.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Якщо шлях до самого каталогу користувача містить спеціальні символи, краще перенаправити весь каталог до іншої папки. Для цього відредагуйте файл <code>/Hearts of Iron IV/launcher-settings.json</code> базової гри та змініть папку, вказану в <code>gameDataPath</code>. Після цього перемістіть вміст каталогу користувача до цієї папки, щоб не втратити збережені ігри та іншу інформацію. Шлях мода також потрібно належним чином скоригувати.</li>
+                <li>Якщо каталог користувача має символи, що не належать до ASCII, у шляху до нього, то всі локальні моди, що зберігаються там (як стандартне місце для їх зберігання), не завантажуватимуться, а вбудовані засоби не зможуть відкрити лог помилок, з'явиться спливаюче вікно з повідомленням, що система не може отримати доступ до файлу. Стандартна папка встановлення Steam має шлях, який міститиме лише символи ASCII, що робить моди Steam працездатними, навіть якщо каталог користувача має в ньому символи, що не належать до ASCII.</li>
+                <li>Якщо лаунчер показує, що мод має недійсний шлях навіть після виправлення проблеми, переконайтеся, що файл дескриптора мода, специфічний для користувача, безпосередньо в каталозі <code>/Hearts of Iron IV/mod/</code> користувача існує, і спробуйте примусово оновити інформацію про мод, видаливши базу даних SQLite, що зберігає інформацію про мод, розташовану або в <code>/Hearts of Iron IV/launcher-v2.sqlite</code>, або в <code>/Hearts of Iron IV/launcher-v2_openbeta.sqlite</code>.</li>
+                <li><strong>Неправильна назва залежності (Мод не завантажується при увімкненні з основним модом)</strong> – Якщо мод призначений бути субмодом до більшого мода або кількох, у більшості випадків обов'язково включати <code>dependencies = { "Main mod 1" "Main mod 2" }</code>, що розмістить його вище в порядку завантаження. У цьому випадку назва мода повинна бути точно такою ж, як у файлі <code>.mod</code> мода, також відображаючись у лаунчері. Це може включати спеціальні символи (наприклад, <code>name = "Main mod – Subtitle"</code> в основному моді вимагатиме <code>dependencies = { "Main mod — Subtitle" }</code> у субмоді з тире em dash, а не дефісом). З цієї причини краще копіювати назву з файлу <code>.mod</code> основного мода, а не вручну переписувати її з лаунчера: деякі спеціальні символи можуть бути важко помітити або відрізнити від інших символів.</li>
+                <li><strong>Не копіювання записів інформації про мод (Записи, такі як <code>replace_path</code>, не застосовуються)</strong> – Гра зберігає файл <code>modname/descriptor.mod</code> мода як інформацію для мода загалом, а <code>/Hearts of Iron IV/mod/modname.mod</code> — як інформацію для мода, що читається для машини. Хоча лаунчер зазвичай намагається підтримувати файл, специфічний для машини, в актуальному стані з загальним файлом інформації про мод, іноді це не вдається, наприклад, для <code>replace_paths</code>, де він успішно видаляє непотрібні записи, але не копіює потрібні. У цьому випадку обидва файли потрібно редагувати вручну, щоб <code>replace_path</code> застосувався. Це також може знадобитися для інших записів у файлі.</li>
+                <li><strong>Файли зі схожими назвами (Файл завантажується двічі)</strong> – У цьому випадку "схожі" визначається як пара файлів у одній папці, назви яких складаються з різних символів, але вважалися б такими, що мають однакову назву при перевірці без урахування регістру, наприклад, <code>/Hearts of Iron IV/events/Generic.txt</code> та <code>/Hearts of Iron IV/events/GENERIC.txt</code>. Якщо файли мода містять файл, назва якого схожа на назву файлу базової гри, файл мода завантажиться двічі. Зміна назви файлу на точну таку ж, як у файлі базової гри, або на повністю відмінну, виправить цю проблему. Це застосовується навіть якщо папка, в якій знаходиться файл базової гри, вивантажена за допомогою <code>replace_path</code>.</li>
+                <li><strong>Зайва закриваюча дужка (Файл передчасно припиняє виконання)</strong> – Якщо під час інтерпретації файлу гра зустрічає закриваючу дужку, яка не відповідає жодній іншій відкриваючій дужці, файл передчасно припинить інтерпретацію в точці закриваючої дужки. Це призведе до того, що нічого після цієї закриваючої дужки не буде виконано. Це найчастіше є проблемою у файлах, які не змушують використовувати блок кореневого рівня, таких як <code>/Hearts of Iron IV/history/countries</code>, оскільки одна зайва закриваюча дужка там зазвичай достатня для миттєвого завершення інтерпретації, замість створення записів про несподівані токени в <code>error.log</code> до кінця файлу.
+<pre><code>capital = 123
+set_convoys = 321
+recruit_character = TAG_countryleader
+
+set_technology = {
+    infantry_weapons = 1
+}
+} // Зайва закриваюча дужка
+
+set_politics = { // Буде проігноровано
+    ideology = neutrality
+    elections_allowed = no
+}</code></pre></li>
+            </ul>
+
+            <hr>
+            <h2 id="useful-knowledge">9. Корисні знання</h2>
+            <p>Великі англомовні спільноти моддерів включають <a href="https://discord.gg/h7Fz9sV" target="_blank" rel="noopener noreferrer">HOI4 Modding Coop</a> та <a href="https://discord.gg/XMCRj4r" target="_blank" rel="noopener noreferrer">HOI4 Modding Den</a>, до яких можна приєднатися в Discord. Корисно приєднатися до однієї або кількох з них, оскільки вони містять посилання на ресурси для моддінгу, і ви можете ставити питання щодо моддінгу в них.</p>
+            <p>Файл <code>settings.txt</code>, розташований у каталозі користувача, що також містить папку мода, можна змінити, щоб змінити програму, яку гра використовує для відкриття файлів, з Microsoft Notepad, якщо шлях до редактора правильний. Ось приклади з двома часто використовуваними текстовими редакторами:</p>
+            <p>Notepad++:</p>
+            <pre><code>editor="C:\\Program Files\\Notepad++\\notepad++.exe"
+editor_postfix=" -n$"</code></pre>
+            <p>Sublime Text:</p>
+            <pre><code>editor="C:\\Program Files\\Sublime Text 3\\sublime_text.exe"
+editor_postfix=":$:1"</code></pre>
+
+            <hr>
+            <h2 id="see-also">10. Див. також</h2>
+            <ul>
+                <li><a href="https://hoi4.paradoxwikis.com/Mods" target="_blank" rel="noopener noreferrer">Моди</a></li>
+                <li><a href="https://forum.paradoxplaza.com/forum/threads/getting-started-with-modding.995985/" target="_blank" rel="noopener noreferrer">Початок роботи з моддінгом (форум: 995985)</a></li>
+                <li><a href="https://forum.paradoxplaza.com/forum/threads/how-to-create-a-new-ship-unit-in-man-the-guns.1157324/" target="_blank" rel="noopener noreferrer">Як створити новий корабельний юніт у Man the Guns (форум: 1157324)</a></li>
+                <li><a href="https://forum.paradoxplaza.com/forum/threads/how-to-add-a-new-unit-checklist.947435/" target="_blank" rel="noopener noreferrer">Як додати новий юніт - Чек-лист (форум: 947435)</a></li>
+            </ul>
+
+            <hr>
+            <h2 id="notes">11. Примітки</h2>
+            <p><sup>[a]</sup> Встановлення порожнього файлу для перезапису файлу загалом ідентичне його вивантаженню на практиці, оскільки гра зазвичай не використовує ні поділ на кілька файлів, ні назву файлів для їх інтерпретації. Це стосується лише текстових файлів, а не зображень, таких як екрани завантаження.</p>
+            <p><sup>[b]</sup> Ці винятки, які можна розумно змінити в моді, такі:</p>
+            <ul>
+                <li><code>/Hearts of Iron IV/gfx/flags/</code> та її підпапки, де назва повинна відповідати суворому форматуванню, щоб автоматично завантажуватися для країни.</li>
+                <li><code>/Hearts of Iron IV/history/countries/</code>, де перші 3 літери призначають її країні.</li>
+                <li>Файли <code>.txt</code> безпосередньо всередині <code>/Hearts of Iron IV/common/</code> (найважливіші <code>achievements.txt</code>, <code>combat_tactics.txt</code> та <code>graphicalculturetype.txt</code>)</li>
+                <li><code>/Hearts of Iron IV/common/countries/colors.txt</code> та <code>/Hearts of Iron IV/common/countries/cosmetic.txt</code> повинні залишатися з тією ж назвою. Решта безпосередньо пов'язані у файлах <code>/Hearts of Iron IV/common/country_tags/*.txt</code>.</li>
+                <li>Різноманітні елементи всередині <code>gfx</code>, такі як <code>/Hearts of Iron IV/gfx/maparrows/maparrow.txt</code> або <code>/Hearts of Iron IV/gfx/HOI4_icon.bmp</code>. Це не включає <code>/Hearts of Iron IV/gfx/loadingscreens</code> (кожен файл у ньому завантажується незалежно від назви файлу) або більшість файлів шрифтів/зображень (оскільки вони завантажуються за посиланням в іншому файлі).</li>
+                <li>Файли всередині папок <code>/Hearts of Iron IV/map/</code> та <code>/Hearts of Iron IV/map/terrain/</code>, за винятком <code>/Hearts of Iron IV/map/strategicregions</code> та тих, що визначені в <code>/Hearts of Iron IV/default.map</code>.</li>
+                <li><code>/Hearts of Iron IV/tutorial/tutorial.txt</code></li>
+            </ul>
+            <p><sup>[c]</sup> Єдиним винятком, який розглядається як звичайна помилка, є <code>MAP_ERROR: Palette in rivers.bmp is probably not correct</code>, спричинена тим, що палітра у файлі має ненульову кількість кольорів, зазвичай продукт збереження поверх неї в GIMP. На відміну від інших записів у <code>error.log</code>, позначених MAP_ERROR, це дозволяє відкривати гру без режиму налагодження та не виводить попередження при спробі перейти в одиночну гру.</p>
+            <p><sup>[d]</sup> У динамічних модифікаторах, і лише в них, порядок модифікаторів у підказці не є жорстко закодованим. Натомість гра розміщує їх у тому ж порядку, в якому вони були написані в коді динамічного модифікатора. Однак порядок модифікаторів всередині динамічних модифікаторів не може призвести до жодної різниці в їх інтерпретації.</p>
+            <p><sup>[e]</sup> У рідкісних випадках немає зображення, встановленого як заповнювач, що призводить до того, що використання неіснуючого спрайта також не призводить до появи нічого. Прикладом цього є баланси сил, де вказівка неіснуючого спрайта для представлення сторони призведе до того, що сторона не матиме іконки. Це особливо рідко, оскільки існує стандартне резервне зображення <code>GFX_default</code>, що показує собаку помилок у базовій грі.</p>
+        </div>
+        
+        <hr> 
+
+                <!-- НОВЕ ФОКУСОВАНЕ НАВІГАЦІЙНЕ МЕНЮ -->
+        <nav id="focused-navigation-menu" class="focused-navigation">
+            <h2>Основні розділи в роботі</h2>
+            <p class="focused-nav-description">Швидкий доступ до сторінок, що зараз створюються та перекладаються.</p>
+            <div class="focused-nav-links">
+                <a href="./pages_uk/national_focuses.html" class="nav-card">
+                    <span class="nav-card-title">Decisions</span>
+                    <span class="nav-card-description">(Рішення)</span>
+                </a>
+                <a href="./pages_uk/events.html" class="nav-card">
+                    <span class="nav-card-title">Events</span>
+                    <span class="nav-card-description">(Події)</span>
+                </a>
+                <a href="./pages_uk/ideas.html" class="nav-card">
+                    <span class="nav-card-title">Ideas</span>
+                    <span class="nav-card-description">(Ідеї)</span>
+                </a>
+                <a href="./pages_uk/national_focuses.html" class="nav-card">
+                    <span class="nav-card-title">National focuses</span>
+                    <span class="nav-card-description">(Національні фокуси)</span>
+                </a>
+            </div>
+        </nav>
+        <!-- КІНЕЦЬ НОВОГО НАВІГАЦІЙНОГО МЕНЮ -->
+
+    </div> 
+
+    <footer>
+        <p>Переклад сторінки Modding - Hearts of Iron 4 Wiki. Оригінал: <a href="https://hoi4.paradoxwikis.com/Modding" target="_blank" rel="noopener noreferrer">hoi4.paradoxwikis.com/Modding</a></p>
+        <p>Дизайн та переклад (за допомогою ШІ) адаптовано для особистого використання.</p>
+    </footer>
+</div> 
+
+    <script>
+        const themeSwitcher = document.getElementById('theme-switcher');
+        const body = document.body;
+        const defaultBaseClass = 'theme-dark-base'; 
+
+        function applyTheme(themeName) {
+            body.classList.remove('theme-light', 'theme-aistudio-dark', 'theme-nord-dark', 'theme-dracula', 'theme-one-dark-pro', defaultBaseClass);
+
+            if (themeName === 'theme-light') {
+                body.classList.add('theme-light');
+            } else {
+                body.classList.add(defaultBaseClass); 
+                body.classList.add(themeName);       
+            }
+            if (themeSwitcher) {
+                 themeSwitcher.value = themeName;
+            }
+            localStorage.setItem('theme', themeName); 
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'theme-light';
+        applyTheme(savedTheme);
+
+        if (themeSwitcher) {
+            themeSwitcher.addEventListener('change', function() {
+                applyTheme(this.value);
+            });
+        }
+        
+        function switchLanguage(lang) {
+            if (lang === 'uk') {
+                alert('Ви вже на українській версії.');
+            } else if (lang === 'ru') {
+                window.location.href = 'index_ru.html';
+            }
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                try {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // Враховуємо висоту "липкої" верхньої панелі
+                        const topBarHeight = document.querySelector('.top-bar')?.offsetHeight || 0;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - topBarHeight - 15; // 15px додаткового відступу
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+
+                         if(history.pushState && targetId !== "#") { 
+                            history.pushState(null, null, targetId);
+                        } else if (targetId !== "#") {
+                            location.hash = targetId;
+                        }
+                    } else {
+                        console.warn("Елемент для прокрутки не знайдено:", targetId);
+                    }
+                } catch (error) {
+                     console.warn("Помилка при виборі елемента для прокрутки:", targetId, error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
