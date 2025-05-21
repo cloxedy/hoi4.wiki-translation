@@ -483,17 +483,17 @@ on_remove = {
             if (lang === 'uk') {
                 // Припускаємо, що _uk версії для української, або просто .html
                 if (currentPage.includes('_ru.html')) {
-                    targetPage = currentPage.replace('_ru.html', '_uk.html');
-                     if (targetPage === '_uk.html') targetPage = 'index.html'; // для головної
-                } else if (!currentPage.includes('_uk.html') && currentPage !== 'index.html') {
-                     targetPage = currentPage.replace('.html', '_uk.html');
+                    targetPage = currentPage.replace('_ru.html', '.html');
+                     if (targetPage === '.html') targetPage = 'index.html'; // для головної
+                } else if (!currentPage.includes('.html') && currentPage !== 'index.html') {
+                     targetPage = currentPage.replace('.html', '.html');
                 } else {
                     alert('Ви вже на українській версії.');
                     return;
                 }
             } else if (lang === 'ru') {
-                 if (currentPage.includes('_uk.html')) {
-                    targetPage = currentPage.replace('_uk.html', '_ru.html');
+                 if (currentPage.includes('.html')) {
+                    targetPage = currentPage.replace('.html', '_ru.html');
                  } else if (currentPage === 'index.html') {
                     targetPage = 'index_ru.html'; // Головна сторінка
                  } else {
