@@ -620,37 +620,10 @@ BHR_category = {
         }
         
         function switchLanguage(lang) {
-            const currentPage = window.location.pathname.split("/").pop(); // Отримуємо назву поточного файлу
-            let targetPage = '';
-
-            // Визначаємо базову назву файлу без мовного суфікса
-            let baseName = currentPage;
-            if (currentPage.includes('.html')) {
-                baseName = currentPage.replace('.html', '');
-            } else if (currentPage.includes('.html')) {
-                baseName = currentPage.replace('.html', '');
-            } else if (currentPage.endsWith('.html')) { // Для index.html або файлів без мовного суфікса
-                 baseName = currentPage.substring(0, currentPage.length - 5);
-            }
-             if (baseName === 'index') baseName = 'index'; // Спеціальна обробка для index
-
             if (lang === 'uk') {
-                targetPage = (baseName === 'index' || baseName === '') ? 'index.html' : `${baseName}.html`;
-                if (currentPage === targetPage || (currentPage === 'index.html' && targetPage === 'index.html')) {
-                     alert('Ви вже на українській версії.'); return;
-                }
+                alert('Ви вже на українській версії.');
             } else if (lang === 'ru') {
-                targetPage = (baseName === 'index' || baseName === '') ? 'russian.html' : `${baseName}.html`;
-                 if (currentPage === targetPage) {
-                     alert('Ви вже на російській версії.'); return;
-                 }
-            }
-            
-            if (targetPage) {
-                // Перевіряємо, чи існує цільова сторінка, перш ніж перенаправляти (опціонально, але добре для UX)
-                // Це вимагатиме AJAX-запиту або списку існуючих сторінок, що ускладнить приклад.
-                // Поки що просто перенаправляємо.
-                window.location.href = targetPage;
+                window.location.href = 'russian.html';
             }
         }
 

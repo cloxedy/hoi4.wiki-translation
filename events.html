@@ -594,33 +594,10 @@ country_event = {
         }
         
         function switchLanguage(lang) {
-            const currentPage = window.location.pathname.split("/").pop(); 
-            let targetPage = '';
-            let baseName = currentPage;
-
-            if (currentPage.includes('_uk.html')) {
-                baseName = currentPage.replace('_uk.html', '');
-            } else if (currentPage.includes('_ru.html')) {
-                baseName = currentPage.replace('_ru.html', '');
-            } else if (currentPage.endsWith('.html')) { 
-                 baseName = currentPage.substring(0, currentPage.length - 5);
-            }
-             if (baseName === 'index' || baseName === '') baseName = 'index'; 
-
             if (lang === 'uk') {
-                targetPage = (baseName === 'index') ? 'index.html' : `${baseName}_uk.html`;
-                if ( (currentPage === targetPage && baseName !== 'index') || (currentPage === 'index.html' && baseName === 'index') ) {
-                     alert('Ви вже на українській версії.'); return;
-                }
+                alert('Ви вже на українській версії.');
             } else if (lang === 'ru') {
-                targetPage = (baseName === 'index') ? 'russian.html' : `${baseName}_ru.html`;
-                 if (currentPage === targetPage) {
-                     alert('Ви вже на російській версії.'); return;
-                 }
-            }
-            
-            if (targetPage) {
-                window.location.href = targetPage;
+                window.location.href = 'russian.html';
             }
         }
 
